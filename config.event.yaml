@@ -1,0 +1,32 @@
+# Pythia EVENT profile — FRIDAY NFP MORNING ONLY (Sep 4, ~9:30-10:45 ET).
+# Maximum variance by design: fast cycles, index-only, convexity on a hair
+# trigger, most of the remaining heat budget deployable. The contest is
+# decided in these 75 minutes; this file says so honestly. Do NOT run this
+# any other day. Flatten by 10:45 ET, snapshot, submit.
+universe: [SPY, QQQ]
+max_dte: 1
+min_dte: 0
+event_offsets: [-0.02, -0.01, 0.0, 0.01, 0.02]
+edge_threshold: 0.05
+min_confidence: 0.55
+max_trades_per_cycle: 4
+kelly_scalar: 1.5
+allow_spreads: true
+convexity_mode: true
+convexity_min_edge: 0.08
+convexity_min_conf: 0.60
+cancel_stale_after_min: 10
+slippage_buffer: 0.07
+cycle_minutes: 5
+options_feed: indicative
+model: claude-opus-5     # the big bets get the big model
+
+risk:
+  per_trade_max_frac: 0.15
+  portfolio_heat_frac: 0.60
+  daily_loss_halt_frac: 0.20
+  per_underlying_frac: 0.40
+  max_spread_frac: 0.30
+  min_bid: 0.01
+  stop_entries_min_before_close: 5
+llm_backend: cli

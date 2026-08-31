@@ -1,0 +1,26 @@
+# Pythia default profile — sane, defensible, demo-friendly.
+universe: [SPY, QQQ, NVDA, TSLA]
+max_dte: 7            # trade this week's expiries
+min_dte: 1            # 0 allows same-day expiry; raise to 1 to avoid 0DTE
+event_offsets: [-0.025, -0.01, 0.0, 0.01, 0.025]   # strikes at spot +/- these pcts
+edge_threshold: 0.07  # trade only when |inferred - implied| >= 7 points
+min_confidence: 0.60
+max_trades_per_cycle: 2
+kelly_scalar: 0.5
+allow_spreads: true   # requires options trading level 3 on the paper account
+slippage_buffer: 0.05
+cycle_minutes: 20
+# llm_backend: "api" uses paid API credits. "cli" runs `claude -p` through
+# Claude Code, billed to your Claude subscription / Agent SDK credit instead.
+llm_backend: cli
+options_feed: indicative   # free on paper; switch to opra only if subscribed
+model: claude-sonnet-5     # current model ids: docs.claude.com/en/docs/about-claude/models
+
+risk:
+  per_trade_max_frac: 0.05
+  portfolio_heat_frac: 0.25
+  daily_loss_halt_frac: 0.08
+  per_underlying_frac: 0.15
+  max_spread_frac: 0.20
+  min_bid: 0.01
+  stop_entries_min_before_close: 20

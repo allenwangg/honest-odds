@@ -1,0 +1,35 @@
+# Pythia CONTEST profile — deliberately higher variance for a 4-day paper
+# leaderboard where losses cost nothing and only the right tail places.
+# This file existing separately from config.yaml is itself a risk-gates story:
+# the limits are parameters, the gates are not.
+universe: [SPY, QQQ, NVDA, TSLA, COIN]
+max_dte: 7
+min_dte: 1
+event_offsets: [-0.025, -0.01, 0.0, 0.01, 0.025]
+edge_threshold: 0.06
+min_confidence: 0.55
+max_trades_per_cycle: 3
+kelly_scalar: 1.0
+allow_spreads: true
+slippage_buffer: 0.05
+cycle_minutes: 15
+# llm_backend: "api" uses paid API credits. "cli" runs `claude -p` through
+# Claude Code, billed to your Claude subscription / Agent SDK credit instead.
+llm_backend: cli
+options_feed: indicative
+model: claude-sonnet-5
+
+risk:
+  per_trade_max_frac: 0.10
+  portfolio_heat_frac: 0.40
+  daily_loss_halt_frac: 0.15
+  per_underlying_frac: 0.25
+  max_spread_frac: 0.40
+  min_bid: 0.01
+  stop_entries_min_before_close: 15
+
+# 1st-place hunters: uncapped-upside longs when conviction is high
+convexity_mode: true
+convexity_min_edge: 0.10
+convexity_min_conf: 0.70
+cancel_stale_after_min: 10

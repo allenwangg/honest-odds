@@ -1,0 +1,33 @@
+# Pythia OVERNIGHT profile — THURSDAY Sep 3, ~3:00-3:45 pm ET ONLY.
+# Builds the NFP book: Friday-expiry only, wide event offsets to catch wing
+# mispricings, convexity on, and the deep model for the bets that decide the
+# contest. If Pythia disagrees with both tails you end up long both wings —
+# an emergent strangle into the print. Run a few cycles, verify fills, stop.
+universe: [SPY, QQQ]
+max_dte: 1
+min_dte: 1
+event_offsets: [-0.03, -0.02, -0.01, 0.01, 0.02, 0.03]
+edge_threshold: 0.06
+min_confidence: 0.60
+max_trades_per_cycle: 4
+kelly_scalar: 1.2
+allow_spreads: true
+convexity_mode: true
+convexity_min_edge: 0.09
+convexity_min_conf: 0.65
+cancel_stale_after_min: 12
+take_profit_close_plpc: 1.50
+slippage_buffer: 0.06
+cycle_minutes: 10
+options_feed: indicative
+model: claude-opus-5     # the big bets get the big model
+
+risk:
+  per_trade_max_frac: 0.12
+  portfolio_heat_frac: 0.50
+  daily_loss_halt_frac: 0.15
+  per_underlying_frac: 0.35
+  max_spread_frac: 0.30
+  min_bid: 0.01
+  stop_entries_min_before_close: 12
+llm_backend: cli
