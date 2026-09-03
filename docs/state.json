@@ -1,0 +1,1717 @@
+{
+ "ts": "2026-09-03T14:55:46.839043+00:00",
+ "market": {
+  "is_open": true,
+  "next_open": "2026-09-04T09:30:00-04:00",
+  "next_close": "2026-09-03T16:00:00-04:00"
+ },
+ "account": {
+  "equity": 107241.85,
+  "cash": 106779.85,
+  "options_buying_power": 106779.85,
+  "day_start_equity": 107813.85,
+  "day_pnl": -572.0,
+  "day_pnl_pct": -0.531,
+  "total_pnl": 7241.85,
+  "total_pnl_pct": 7.242
+ },
+ "halted": false,
+ "gates": [
+  {
+   "gate": "G6 kill switch",
+   "passed": true,
+   "detail": "clear"
+  },
+  {
+   "gate": "G1 defined risk",
+   "passed": true,
+   "detail": "debit 1.39, 1L/1S, width 4.0"
+  },
+  {
+   "gate": "G2 per-trade budget",
+   "passed": true,
+   "detail": "max loss $3,058 vs budget $3,287"
+  },
+  {
+   "gate": "G3 portfolio heat",
+   "passed": true,
+   "detail": "open $0 + new $3,058 vs cap $10,958"
+  },
+  {
+   "gate": "G4 circuit breaker",
+   "passed": true,
+   "detail": "clear"
+  },
+  {
+   "gate": "G5 liquidity",
+   "passed": true,
+   "detail": "tight"
+  },
+  {
+   "gate": "G7 concentration",
+   "passed": true,
+   "detail": "QQQ/SPY: $0 + $3,058 vs $9,862"
+  },
+  {
+   "gate": "G8 sanity",
+   "passed": true,
+   "detail": "breakeven p 0.35 vs inferred 0.52"
+  }
+ ],
+ "equity_history": [
+  {
+   "ts": "2026-08-31T14:28:12.430990+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T14:34:51.302526+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T14:41:28.784100+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T14:50:29.153134+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T15:14:08.318988+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T15:27:56.707839+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T15:43:42.222744+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T15:50:54.069167+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T16:06:07.640440+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T16:12:58.850535+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T16:27:49.801410+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T16:41:57.343084+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T16:57:32.531934+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T17:12:05.585809+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T17:28:36.753013+00:00",
+   "equity": 99375.9
+  },
+  {
+   "ts": "2026-08-31T18:27:33.911790+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-08-31T18:29:32.710782+00:00",
+   "equity": 99303.8
+  },
+  {
+   "ts": "2026-08-31T18:35:22.099609+00:00",
+   "equity": 99241.42
+  },
+  {
+   "ts": "2026-08-31T18:39:34.439630+00:00",
+   "equity": 99086.42
+  },
+  {
+   "ts": "2026-08-31T18:43:44.471194+00:00",
+   "equity": 99176.42
+  },
+  {
+   "ts": "2026-08-31T18:47:09.792136+00:00",
+   "equity": 99521.42
+  },
+  {
+   "ts": "2026-08-31T18:51:13.718062+00:00",
+   "equity": 99261.42
+  },
+  {
+   "ts": "2026-08-31T18:55:26.688087+00:00",
+   "equity": 99211.42
+  },
+  {
+   "ts": "2026-08-31T19:00:01.146500+00:00",
+   "equity": 99036.42
+  },
+  {
+   "ts": "2026-08-31T19:04:25.033437+00:00",
+   "equity": 98956.42
+  },
+  {
+   "ts": "2026-08-31T19:09:25.865496+00:00",
+   "equity": 98831.42
+  },
+  {
+   "ts": "2026-08-31T19:13:38.411729+00:00",
+   "equity": 98388.17
+  },
+  {
+   "ts": "2026-08-31T19:16:30.622276+00:00",
+   "equity": 98668.17
+  },
+  {
+   "ts": "2026-08-31T19:19:46.988995+00:00",
+   "equity": 98683.17
+  },
+  {
+   "ts": "2026-08-31T19:22:40.970282+00:00",
+   "equity": 98583.17
+  },
+  {
+   "ts": "2026-08-31T19:27:12.243309+00:00",
+   "equity": 98363.17
+  },
+  {
+   "ts": "2026-08-31T19:31:07.899051+00:00",
+   "equity": 98388.17
+  },
+  {
+   "ts": "2026-08-31T19:37:31.432945+00:00",
+   "equity": 98243.17
+  },
+  {
+   "ts": "2026-08-31T19:41:40.446910+00:00",
+   "equity": 98078.17
+  },
+  {
+   "ts": "2026-08-31T19:45:32.145309+00:00",
+   "equity": 98373.17
+  },
+  {
+   "ts": "2026-08-31T19:45:47.655638+00:00",
+   "equity": 99143.17
+  },
+  {
+   "ts": "2026-08-31T19:46:47.539418+00:00",
+   "equity": 98978.17
+  },
+  {
+   "ts": "2026-08-31T19:47:47.517101+00:00",
+   "equity": 99218.17
+  },
+  {
+   "ts": "2026-08-31T19:48:47.606158+00:00",
+   "equity": 98818.17
+  },
+  {
+   "ts": "2026-08-31T19:49:47.632566+00:00",
+   "equity": 98663.17
+  },
+  {
+   "ts": "2026-08-31T19:50:47.725944+00:00",
+   "equity": 98738.17
+  },
+  {
+   "ts": "2026-08-31T19:51:47.742097+00:00",
+   "equity": 98838.17
+  },
+  {
+   "ts": "2026-08-31T19:52:47.828853+00:00",
+   "equity": 98993.17
+  },
+  {
+   "ts": "2026-08-31T19:53:47.860758+00:00",
+   "equity": 98548.17
+  },
+  {
+   "ts": "2026-08-31T19:54:47.879096+00:00",
+   "equity": 98653.17
+  },
+  {
+   "ts": "2026-08-31T19:55:47.921209+00:00",
+   "equity": 98423.17
+  },
+  {
+   "ts": "2026-08-31T19:56:47.987964+00:00",
+   "equity": 98448.17
+  },
+  {
+   "ts": "2026-08-31T19:57:48.038106+00:00",
+   "equity": 98488.17
+  },
+  {
+   "ts": "2026-08-31T19:58:48.095868+00:00",
+   "equity": 98463.17
+  },
+  {
+   "ts": "2026-08-31T19:59:48.141990+00:00",
+   "equity": 98238.17
+  },
+  {
+   "ts": "2026-09-01T13:45:16.400003+00:00",
+   "equity": 109174.06
+  },
+  {
+   "ts": "2026-09-01T13:49:58.940187+00:00",
+   "equity": 106651.31
+  },
+  {
+   "ts": "2026-09-01T13:54:54.320022+00:00",
+   "equity": 105416.31
+  },
+  {
+   "ts": "2026-09-01T14:00:21.347475+00:00",
+   "equity": 105591.31
+  },
+  {
+   "ts": "2026-09-01T14:04:58.610060+00:00",
+   "equity": 104836.31
+  },
+  {
+   "ts": "2026-09-01T14:10:37.594519+00:00",
+   "equity": 104960.5
+  },
+  {
+   "ts": "2026-09-01T14:16:31.284661+00:00",
+   "equity": 104364.5
+  },
+  {
+   "ts": "2026-09-01T14:19:49.288319+00:00",
+   "equity": 103674.5
+  },
+  {
+   "ts": "2026-09-01T14:24:29.922695+00:00",
+   "equity": 103322.5
+  },
+  {
+   "ts": "2026-09-01T14:28:03.103852+00:00",
+   "equity": 103040.7
+  },
+  {
+   "ts": "2026-09-01T14:33:11.173016+00:00",
+   "equity": 102930.7
+  },
+  {
+   "ts": "2026-09-01T14:47:26.581707+00:00",
+   "equity": 102115.7
+  },
+  {
+   "ts": "2026-09-01T15:01:41.963548+00:00",
+   "equity": 102675.7
+  },
+  {
+   "ts": "2026-09-01T15:17:58.563459+00:00",
+   "equity": 101730.7
+  },
+  {
+   "ts": "2026-09-01T15:32:01.879845+00:00",
+   "equity": 101515.7
+  },
+  {
+   "ts": "2026-09-01T15:47:37.063845+00:00",
+   "equity": 101330.7
+  },
+  {
+   "ts": "2026-09-01T16:02:35.837400+00:00",
+   "equity": 99616.82
+  },
+  {
+   "ts": "2026-09-01T16:17:35.060736+00:00",
+   "equity": 102236.82
+  },
+  {
+   "ts": "2026-09-01T16:32:13.886689+00:00",
+   "equity": 108676.82
+  },
+  {
+   "ts": "2026-09-01T16:48:11.334960+00:00",
+   "equity": 109970.2
+  },
+  {
+   "ts": "2026-09-01T17:02:52.080609+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T17:18:43.269354+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T17:25:10.809152+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-09-01T17:29:47.954515+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T17:44:48.153292+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T17:59:48.359574+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T18:14:48.580017+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T18:29:48.678043+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T18:44:48.942751+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T18:59:49.138131+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T19:14:49.262876+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T19:29:49.430921+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T19:44:49.653430+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-01T19:59:49.836782+00:00",
+   "equity": 109584.33
+  },
+  {
+   "ts": "2026-09-02T13:33:05.977278+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T13:50:07.015636+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T13:58:53.345765+00:00",
+   "equity": 100000.0
+  },
+  {
+   "ts": "2026-09-02T14:00:00.789582+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T14:06:54.213682+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T14:18:43.173336+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T14:34:29.455838+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T14:48:43.899781+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T15:03:19.896544+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T15:09:11.912440+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T15:18:47.213009+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T15:34:47.806433+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T15:49:37.142987+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T16:05:19.198810+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T16:19:12.522441+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T16:34:17.903898+00:00",
+   "equity": 109575.76
+  },
+  {
+   "ts": "2026-09-02T16:49:06.852935+00:00",
+   "equity": 109728.66
+  },
+  {
+   "ts": "2026-09-02T17:05:03.890235+00:00",
+   "equity": 109508.66
+  },
+  {
+   "ts": "2026-09-02T17:19:20.204623+00:00",
+   "equity": 109662.66
+  },
+  {
+   "ts": "2026-09-02T17:34:17.109433+00:00",
+   "equity": 109596.66
+  },
+  {
+   "ts": "2026-09-02T17:49:44.639117+00:00",
+   "equity": 109508.66
+  },
+  {
+   "ts": "2026-09-02T18:05:41.518144+00:00",
+   "equity": 109442.66
+  },
+  {
+   "ts": "2026-09-02T18:19:35.561695+00:00",
+   "equity": 109618.66
+  },
+  {
+   "ts": "2026-09-02T18:34:04.993785+00:00",
+   "equity": 109464.66
+  },
+  {
+   "ts": "2026-09-02T18:49:15.412270+00:00",
+   "equity": 109794.66
+  },
+  {
+   "ts": "2026-09-02T19:05:36.520182+00:00",
+   "equity": 109706.66
+  },
+  {
+   "ts": "2026-09-02T19:19:32.100700+00:00",
+   "equity": 109486.66
+  },
+  {
+   "ts": "2026-09-02T19:33:52.394503+00:00",
+   "equity": 109530.66
+  },
+  {
+   "ts": "2026-09-02T19:45:06.085445+00:00",
+   "equity": 109398.66
+  },
+  {
+   "ts": "2026-09-03T13:46:42.910559+00:00",
+   "equity": 107813.85
+  },
+  {
+   "ts": "2026-09-03T14:00:36.057848+00:00",
+   "equity": 107329.85
+  },
+  {
+   "ts": "2026-09-03T14:20:16.200516+00:00",
+   "equity": 107659.85
+  },
+  {
+   "ts": "2026-09-03T14:42:43.884583+00:00",
+   "equity": 107131.85
+  },
+  {
+   "ts": "2026-09-03T14:55:46.838125+00:00",
+   "equity": 107241.85
+  }
+ ],
+ "positions": [
+  {
+   "symbol": "QQQ260903P00704000",
+   "qty": -22.0,
+   "cost_basis": -2662.0,
+   "market_value": -198.0,
+   "unrealized_pl": 2464.0,
+   "unrealized_plpc": 92.56
+  },
+  {
+   "symbol": "QQQ260903P00708000",
+   "qty": 22.0,
+   "cost_basis": 5456.0,
+   "market_value": 660.0,
+   "unrealized_pl": -4796.0,
+   "unrealized_plpc": -87.9
+  }
+ ],
+ "decisions": [
+  {
+   "ts": "2026-09-02T16:31:34.530833+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-03",
+   "strike": 708.0,
+   "direction": "below",
+   "implied_p": 0.601,
+   "inferred_p": 0.52,
+   "edge": -0.081,
+   "confidence": 0.68,
+   "rationale": "K sits 0.4 below spot, essentially a coin flip; 0.601 implies a drift no 1-day index distribution supports, so I fade it toward 0.50.",
+   "stance": "The implied curve is internally incoherent \u2014 too much mass 708-715, too little 694-701 \u2014 so I anchor to a coherent ~16.5% vol distribution centered just below spot, fading the rich ATM call and both wings while staying close to the market at 701 and 715.",
+   "structure": "put debit spread 708.0/704.0",
+   "contracts": 22,
+   "limit_debit": 1.39,
+   "max_loss": 3058.0,
+   "breakeven_p": 0.347,
+   "gates": [
+    {
+     "gate": "G6 kill switch",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G1 defined risk",
+     "passed": true,
+     "detail": "debit 1.39, 1L/1S, width 4.0"
+    },
+    {
+     "gate": "G2 per-trade budget",
+     "passed": true,
+     "detail": "max loss $3,058 vs budget $3,287"
+    },
+    {
+     "gate": "G3 portfolio heat",
+     "passed": true,
+     "detail": "open $0 + new $3,058 vs cap $10,958"
+    },
+    {
+     "gate": "G4 circuit breaker",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G5 liquidity",
+     "passed": true,
+     "detail": "tight"
+    },
+    {
+     "gate": "G7 concentration",
+     "passed": true,
+     "detail": "QQQ/SPY: $0 + $3,058 vs $9,862"
+    },
+    {
+     "gate": "G8 sanity",
+     "passed": true,
+     "detail": "breakeven p 0.35 vs inferred 0.52"
+    }
+   ],
+   "action": "submitted",
+   "status": "submitted",
+   "order_id": "26f72ab8-aab0-4e81-8ab8-5aa739cb5d88",
+   "client_order_id": "pythia-aaed91b868711937"
+  },
+  {
+   "ts": "2026-09-02T14:30:50.984364+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-03",
+   "strike": 750.0,
+   "direction": "above",
+   "implied_p": 0.9,
+   "inferred_p": 0.982,
+   "edge": 0.082,
+   "confidence": 0.72,
+   "rationale": "At 14.2% IV a 1DTE move to 750 is -2.2sd; a 0.900 quote implies a 10% chance of a -2% day with 10d realized at 7.7% \u2014 deep put wing looks stale/wide.",
+   "stance": "IV premium of +6.5 pts into a second-tier ADP print looks rich versus 7.7% realized and a tight 761-771 range, so I sit slightly inside both wings with no directional tilt \u2014 but the standout is the 750 put wing, where a 0.900 implied is inconsistent with the rest of the chain's own 14.2% vol.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T16:28:48.120562+00:00",
+   "symbol": "TSLA260902P00357500",
+   "action": "banked",
+   "unrealized_plpc": 1.011
+  },
+  {
+   "ts": "2026-09-01T16:14:33.363887+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 745.0,
+   "direction": "above",
+   "implied_p": 0.912,
+   "inferred_p": 0.975,
+   "edge": 0.063,
+   "confidence": 0.65,
+   "rationale": "745 is -2.5% (~3.2 sigma at 12.7% IV) in a 7.4% realized-vol tape; the 0.912 quote implies a fat put wing that ATM vol and the 756 quote both contradict.",
+   "stance": "Core strikes (756/764/772) are roughly fair on a ~6-point 1-day sigma, but both wings are quoted far too fat for a 7.4% realized-vol tape, so the tradable disagreement is selling the 745 and 779 tails, not taking a direction into the ISM/JOLTS double print.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T16:14:33.363122+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 779.0,
+   "direction": "below",
+   "implied_p": 0.096,
+   "inferred_p": 0.02,
+   "edge": -0.076,
+   "confidence": 0.7,
+   "rationale": "+2.0% overnight is ~2.6 sigma; 0.096 is inconsistent with both ATM IV and the 772 quote (only 2.5 pts of density between them) \u2014 stale wide wing quote.",
+   "stance": "Core strikes (756/764/772) are roughly fair on a ~6-point 1-day sigma, but both wings are quoted far too fat for a 7.4% realized-vol tape, so the tradable disagreement is selling the 745 and 779 tails, not taking a direction into the ISM/JOLTS double print.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:59:15.986927+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 779.0,
+   "direction": "below",
+   "implied_p": 0.085,
+   "inferred_p": 0.02,
+   "edge": -0.065,
+   "confidence": 0.65,
+   "rationale": "+2.5z overnight move; 0.085 implied is inconsistent with the 772 quote and reads as a wide one-sided far-OTM call mid.",
+   "stance": "Respect the market near the money \u2014 slightly below 0.555 at 764 given oil-driven risk-off and a macro double print inside the session \u2014 but both far wings (745, 779) are quote artifacts that price implausible tail mass relative to a 6-point 1DTE sigma.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:59:15.985933+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 745.0,
+   "direction": "above",
+   "implied_p": 0.909,
+   "inferred_p": 0.98,
+   "edge": 0.071,
+   "confidence": 0.72,
+   "rationale": "1DTE sigma ~6pts puts 745 at -3.2z; implied 0.909 looks like a stale/wide deep-put mid, not a real 9% crash odds.",
+   "stance": "Respect the market near the money \u2014 slightly below 0.555 at 764 given oil-driven risk-off and a macro double print inside the session \u2014 but both far wings (745, 779) are quote artifacts that price implausible tail mass relative to a 6-point 1DTE sigma.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:44:24.684164+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 745.0,
+   "direction": "above",
+   "implied_p": 0.902,
+   "inferred_p": 0.985,
+   "edge": 0.083,
+   "confidence": 0.8,
+   "rationale": "745 is 2.5% / ~3.6 sigma below spot for 1DTE; market's 0.902 is a stale-wing artifact, not a real distribution. Oil-shock gap risk keeps me off 0.999.",
+   "stance": "Quotes in both wings are internally inconsistent (745 vs 756 flat, 772 vs 779 flat), so I defer to the market only near ATM \u2014 mildly bearish there on the oil/hawkish-repricing tape \u2014 and fade the wings hard, using ~0.70% daily vol that respects the IV premium for tomorrow's ISM/JOLTS double print.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:30:13.439296+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-02",
+   "strike": 728.0,
+   "direction": "below",
+   "implied_p": 0.092,
+   "inferred_p": 0.025,
+   "edge": -0.067,
+   "confidence": 0.7,
+   "rationale": "Implied 0.092 above 728 exceeds the 0.073 mass between 717 and 728 \u2014 incoherent, stale far-OTM call marks; +2.6% in 1D is ~2.6 sigma.",
+   "stance": "Respect the market from 703 to 717 with a mild bearish shade at the money (oil shock plus hawkish repricing versus pre-positioning), but both wings \u2014 especially the internally incoherent 728 call \u2014 are priced far too fat for a 1DTE with 13.7% realized vol.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:29:28.612268+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 744.0,
+   "direction": "above",
+   "implied_p": 0.914,
+   "inferred_p": 0.99,
+   "edge": 0.076,
+   "confidence": 0.75,
+   "rationale": "744 is -2.5% / ~3.3 sigma at 12% IV on 1DTE; implied 0.914 is stale wide-quote noise, not a real 8.6% crash probability.",
+   "stance": "The three central strikes are broadly fair with a mild downward tilt vs the chain's implied upward drift; both wings (744, 779) are quote-driven artifacts where the implied distribution is internally incoherent, and that's where the real edge sits.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:29:28.612006+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 779.0,
+   "direction": "below",
+   "implied_p": 0.094,
+   "inferred_p": 0.012,
+   "edge": -0.082,
+   "confidence": 0.72,
+   "rationale": "+2.1% in one session is ~2.7 sigma; implied 0.094 vs 0.116 at 771 is non-monotone nonsense (2% mass in the 771-779 gap) \u2014 bad quote, not real tail.",
+   "stance": "The three central strikes are broadly fair with a mild downward tilt vs the chain's implied upward drift; both wings (744, 779) are quote-driven artifacts where the implied distribution is internally incoherent, and that's where the real edge sits.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:15:30.174678+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-02",
+   "strike": 692.0,
+   "direction": "above",
+   "implied_p": 0.894,
+   "inferred_p": 0.955,
+   "edge": 0.061,
+   "confidence": 0.62,
+   "rationale": "692 is -2.45% away, ~2.3sd at 17% fair 1d vol; market's 10.6% downside tail is inflated by wide 1DTE put mids even granting Hormuz gap risk.",
+   "stance": "Center is fairly priced but the market's quote-derived wings are far too fat on both sides \u2014 I hold the 702-716 band close to the chain and fade 692 and 727, with the clearest edge selling the 727 upside tail into a 13.8% realized, hawkish, oil-shock regime.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:15:30.173853+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-02",
+   "strike": 727.0,
+   "direction": "below",
+   "implied_p": 0.097,
+   "inferred_p": 0.03,
+   "edge": -0.067,
+   "confidence": 0.62,
+   "rationale": "+2.48% needs a ~2.3sd up day on an ISM/JOLTS print into a hawkish, oil-shocked tape; 0.097 is penny-option mid inflation, not real probability.",
+   "stance": "Center is fairly priced but the market's quote-derived wings are far too fat on both sides \u2014 I hold the 702-716 band close to the chain and fade 692 and 727, with the clearest edge selling the 727 upside tail into a 13.8% realized, hawkish, oil-shock regime.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:14:30.922218+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 744.0,
+   "direction": "above",
+   "implied_p": 0.913,
+   "inferred_p": 0.982,
+   "edge": 0.069,
+   "confidence": 0.78,
+   "rationale": "744 is ~3.2 sigma below spot on a 1DTE (~0.8%/day); market's 0.913 implies a 9% chance of a -2.5% gap \u2014 a stale/one-sided deep-ITM quote, not a real price.",
+   "stance": "Middle strikes are fairly priced and I defer to the chain, but both wings are quote artifacts \u2014 the 744 line is far too cheap and the 779 line far too rich \u2014 with a slight downward tilt from the oil shock ahead of tomorrow's ISM/JOLTS double print.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:14:30.921458+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 779.0,
+   "direction": "below",
+   "implied_p": 0.088,
+   "inferred_p": 0.013,
+   "edge": -0.075,
+   "confidence": 0.72,
+   "rationale": "779 needs +2.1% in one session; even with fat tails that is ~1%. The quoted 0.088 exceeds the 771 line's implied slope \u2014 a broken far-wing quote.",
+   "stance": "Middle strikes are fairly priced and I defer to the chain, but both wings are quote artifacts \u2014 the 744 line is far too cheap and the 779 line far too rich \u2014 with a slight downward tilt from the oil shock ahead of tomorrow's ISM/JOLTS double print.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T15:00:26.245918+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-02",
+   "strike": 728.0,
+   "direction": "below",
+   "implied_p": 0.121,
+   "inferred_p": 0.035,
+   "edge": -0.086,
+   "confidence": 0.72,
+   "rationale": "Chain implies P(>728|>717)=60%, incoherent. Realized daily sigma is 0.87%; +2.5% is ~3 sigma and needs a dovish shock the calendar doesn't offer.",
+   "stance": "Body of the chain is roughly fair on a 1.15% daily sigma (IV premium earned by the ISM/JOLTS double print plus Hormuz risk), but both wings \u2014 especially the 728 call \u2014 price tail mass inconsistent with the ATM vol and with a 13.7% realized regime, so I sell the wings and lean neutral-to-slightly-low",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:59:25.726133+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 744.0,
+   "direction": "above",
+   "implied_p": 0.916,
+   "inferred_p": 0.985,
+   "edge": 0.069,
+   "confidence": 0.72,
+   "rationale": "744 is ~3.4 sigma down on a 0.75%/day vol; chain's 0.916 puts 8.4% below 744 but only 3.5% in 744-756, an impossible density \u2014 deep put quote is stale/wide.",
+   "stance": "Belly strikes (756/763/771) are fairly priced off a ~0.75%/day sigma and I stay near the market; both far wings are internally inconsistent quote artifacts and are the only place I take size, selling the overpriced 780 tail and fading the too-cheap 744 put.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:45:04.183604+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-02",
+   "strike": 728.0,
+   "direction": "below",
+   "implied_p": 0.106,
+   "inferred_p": 0.04,
+   "edge": -0.067,
+   "confidence": 0.62,
+   "rationale": "+2.5% in one session would be a multi-month outlier for QQQ; a 10.6% upside tail implies ~32% vol, unjustified with oil spiking and rate-cut hopes fading.",
+   "stance": "Agree with the market through the body but the wings look far too fat for a 1DTE ISM/JOLTS day with 13.7% realized vol \u2014 sell both tails modestly, with more conviction on the upside wing since oil shock and hawkish repricing cap rallies while genuinely gapping the market lower is the live tail.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:44:19.496838+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 780.0,
+   "direction": "below",
+   "implied_p": 0.096,
+   "inferred_p": 0.02,
+   "edge": -0.075,
+   "confidence": 0.75,
+   "rationale": "+2.8 sigma, and 0.096 sits nearly on top of the 772 mark \u2014 a stale/wide wing quote, not a real belief in a +2.1% single-session rally.",
+   "stance": "Vol is genuinely bid (IV 13 vs RV 7.4) on Hormuz/oil headlines and tomorrow's ISM+JOLTS double print, so I stay near the market at the body but fade both wings, where the quoted probabilities are internally inconsistent \u2014 745 too low, 780 far too high \u2014 with a mild downside tilt from the oil shock a",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:29:58.909609+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 780.0,
+   "direction": "below",
+   "implied_p": 0.083,
+   "inferred_p": 0.02,
+   "edge": -0.063,
+   "confidence": 0.68,
+   "rationale": "+2.1% in one session with 0.47% realized daily moves and no bullish catalyst. 8.3% implied is a stale wing mid; even generous jump risk caps this near 2%.",
+   "stance": "Body of the distribution is fairly priced and I defer to it with only a small fade of the market's upward ATM tilt, but both wings look inflated by wide 1DTE penny quotes, so the sells are the 780 calls and 745 puts rather than any directional bet into tomorrow's ISM/JOLTS double print.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:29:58.909318+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 745.0,
+   "direction": "above",
+   "implied_p": 0.924,
+   "inferred_p": 0.985,
+   "edge": 0.061,
+   "confidence": 0.7,
+   "rationale": "745 is -2.5% away; 1DTE ATM IV 13.1% implies ~6.3pt sigma, so this is ~3 sigma. Market's 7.6% below-prob looks like a wide penny-put quote, not real tail odds.",
+   "stance": "Body of the distribution is fairly priced and I defer to it with only a small fade of the market's upward ATM tilt, but both wings look inflated by wide 1DTE penny quotes, so the sells are the 780 calls and 745 puts rather than any directional bet into tomorrow's ISM/JOLTS double print.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:26:20.915389+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-02",
+   "strike": 726.0,
+   "direction": "below",
+   "implied_p": 0.092,
+   "inferred_p": 0.025,
+   "edge": -0.067,
+   "confidence": 0.65,
+   "rationale": "+2.5% in one session on a data print is a ~1-2% event; the chain's 0.092 is an unrealistic call-wing tail from stale/wide OTM quotes.",
+   "stance": "I largely accept the market near ATM but reject both wings: the chain prices ~17% of mass beyond +/-2.5% in a single session, which is roughly triple what 18.8% IV or the recent 0.85% daily realized supports, so I fade the tails and stay directionally neutral into the ISM/JOLTS double print with a f",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:22:19.302383+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 779.0,
+   "direction": "below",
+   "implied_p": 0.096,
+   "inferred_p": 0.01,
+   "edge": -0.086,
+   "confidence": 0.68,
+   "rationale": "+2.0% in one session is ~3 sigma and has not happened in this sample; 0.096 is untradeable-wing noise, likely a one-sided quote, not a genuine probability.",
+   "stance": "Market's body pricing (756/764/771) is roughly fair with a mild downside tilt I respect, but both wings are quoted at implausible tail probabilities \u2014 I fade 748 much higher and 779 much lower, while staying close to the mid near the money into tomorrow's ISM/JOLTS double print.",
+   "structure": "convex long put 763.0",
+   "contracts": 39,
+   "limit_debit": 1.91,
+   "max_loss": 7449.0,
+   "breakeven_p": null,
+   "gates": [
+    {
+     "gate": "G6 kill switch",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G1 defined risk",
+     "passed": true,
+     "detail": "debit 1.91, 1L/0S, width 0.0"
+    },
+    {
+     "gate": "G2 per-trade budget",
+     "passed": true,
+     "detail": "max loss $7,449 vs budget $12,399"
+    },
+    {
+     "gate": "G3 portfolio heat",
+     "passed": false,
+     "detail": "open $50,567 + new $7,449 vs cap $51,661"
+    },
+    {
+     "gate": "G4 circuit breaker",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G5 liquidity",
+     "passed": true,
+     "detail": "tight"
+    },
+    {
+     "gate": "G7 concentration",
+     "passed": true,
+     "detail": "QQQ/SPY: $30,157 + $7,449 vs $54,244"
+    },
+    {
+     "gate": "G8 sanity",
+     "passed": true,
+     "detail": "single leg debit"
+    }
+   ],
+   "action": "blocked",
+   "reason": "G3 portfolio heat"
+  },
+  {
+   "ts": "2026-09-01T14:22:19.301769+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 748.0,
+   "direction": "above",
+   "implied_p": 0.879,
+   "inferred_p": 0.975,
+   "edge": 0.096,
+   "confidence": 0.72,
+   "rationale": "748 is -2.0%, ~2.8 sigma on a 1-day 13% IV; largest daily move in 3 weeks was -0.84%. Implied 0.879 looks like a stale wide wing quote, not a real tail price.",
+   "stance": "Market's body pricing (756/764/771) is roughly fair with a mild downside tilt I respect, but both wings are quoted at implausible tail probabilities \u2014 I fade 748 much higher and 779 much lower, while staying close to the mid near the money into tomorrow's ISM/JOLTS double print.",
+   "structure": "convex long call 764.0",
+   "contracts": 45,
+   "limit_debit": 1.95,
+   "max_loss": 8775.0,
+   "breakeven_p": null,
+   "gates": [
+    {
+     "gate": "G6 kill switch",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G1 defined risk",
+     "passed": true,
+     "detail": "debit 1.95, 1L/0S, width 0.0"
+    },
+    {
+     "gate": "G2 per-trade budget",
+     "passed": true,
+     "detail": "max loss $8,775 vs budget $12,399"
+    },
+    {
+     "gate": "G3 portfolio heat",
+     "passed": false,
+     "detail": "open $50,567 + new $8,775 vs cap $51,661"
+    },
+    {
+     "gate": "G4 circuit breaker",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G5 liquidity",
+     "passed": true,
+     "detail": "tight"
+    },
+    {
+     "gate": "G7 concentration",
+     "passed": true,
+     "detail": "QQQ/SPY: $30,157 + $8,775 vs $54,244"
+    },
+    {
+     "gate": "G8 sanity",
+     "passed": true,
+     "detail": "single leg debit"
+    }
+   ],
+   "action": "blocked",
+   "reason": "G3 portfolio heat"
+  },
+  {
+   "ts": "2026-09-01T14:18:31.025836+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-02",
+   "strike": 701.0,
+   "direction": "below",
+   "implied_p": 0.846,
+   "inferred_p": 0.785,
+   "edge": -0.061,
+   "confidence": 0.55,
+   "rationale": "701 is -0.87 sigma at 19.7% IV; market's 0.846 is internally rich vs its own 694 and 708 marks and underprices follow-through after today's -1.14%.",
+   "stance": "Respect the elevated 19.7% IV as event-justified but tilt the distribution slightly left and thin the upside wing: oil-shock hawkishness caps rallies more than it fattens the right tail, and the market's 701 and 723 marks are the two quotes worth fading.",
+   "structure": "put debit spread 701.0/697.0",
+   "contracts": 106,
+   "limit_debit": 0.44,
+   "max_loss": 4664.0,
+   "breakeven_p": 0.11,
+   "gates": [
+    {
+     "gate": "G6 kill switch",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G1 defined risk",
+     "passed": true,
+     "detail": "debit 0.44, 1L/1S, width 4.0"
+    },
+    {
+     "gate": "G2 per-trade budget",
+     "passed": true,
+     "detail": "max loss $4,664 vs budget $12,441"
+    },
+    {
+     "gate": "G3 portfolio heat",
+     "passed": false,
+     "detail": "open $50,567 + new $4,664 vs cap $51,837"
+    },
+    {
+     "gate": "G4 circuit breaker",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G5 liquidity",
+     "passed": true,
+     "detail": "tight"
+    },
+    {
+     "gate": "G7 concentration",
+     "passed": true,
+     "detail": "QQQ/SPY: $30,157 + $4,664 vs $54,429"
+    },
+    {
+     "gate": "G8 sanity",
+     "passed": true,
+     "detail": "breakeven p 0.11 vs inferred 0.79"
+    }
+   ],
+   "action": "blocked",
+   "reason": "G3 portfolio heat"
+  },
+  {
+   "ts": "2026-09-01T14:17:20.201917+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 748.0,
+   "direction": "above",
+   "implied_p": 0.903,
+   "inferred_p": 0.955,
+   "edge": 0.052,
+   "confidence": 0.55,
+   "rationale": "748 is ~2.3 sigma down on a 0.85% daily sigma; market's 0.903 prices a fat left tail I think is over-rich even with Hormuz/oil risk.",
+   "stance": "Respect the market from 756 to 771 with a small bearish tilt at the money, and fade both wings where cheap-option quote noise has inflated tail probabilities \u2014 especially the 779 call.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:17:20.201454+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 779.0,
+   "direction": "below",
+   "implied_p": 0.076,
+   "inferred_p": 0.025,
+   "edge": -0.051,
+   "confidence": 0.65,
+   "rationale": "+2.4 sigma in 1 DTE priced at 0.076 while 771 is 0.109 \u2014 that wing is quote/spread noise, not a real distribution; I fade it hard.",
+   "stance": "Respect the market from 756 to 771 with a small bearish tilt at the money, and fade both wings where cheap-option quote noise has inflated tail probabilities \u2014 especially the 779 call.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:12:36.700199+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 747.0,
+   "direction": "above",
+   "implied_p": 0.913,
+   "inferred_p": 0.965,
+   "edge": 0.052,
+   "confidence": 0.62,
+   "rationale": "A -2.1% close needs a genuine crash; 1DTE ATM vol (0.84%/day) implies ~99%, and 0.913 looks like deep-wing bid-ask mid inflation, not real left tail.",
+   "stance": "Body of the distribution is fairly priced, so I defer near ATM apart from a small bearish drift tilt from the Hormuz/Brent shock; both wings are grossly inflated by 1DTE quote-mid artifacts and are where my edge sits \u2014 short the 778 call side and the 747 put side, with vol shaded only modestly below",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:12:36.699328+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 778.0,
+   "direction": "below",
+   "implied_p": 0.078,
+   "inferred_p": 0.012,
+   "edge": -0.066,
+   "confidence": 0.65,
+   "rationale": "+2.0% is ~2.6sd with 10d realized only 7.6%; 0.078 is ~7x lognormal and reflects a penny-option quote mid, not a real right tail.",
+   "stance": "Body of the distribution is fairly priced, so I defer near ATM apart from a small bearish drift tilt from the Hormuz/Brent shock; both wings are grossly inflated by 1DTE quote-mid artifacts and are where my edge sits \u2014 short the 778 call side and the 747 put side, with vol shaded only modestly below",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:07:39.001698+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 778.0,
+   "direction": "below",
+   "implied_p": 0.089,
+   "inferred_p": 0.028,
+   "edge": -0.061,
+   "confidence": 0.62,
+   "rationale": "778 quoted nearly equal to 770 (0.089 vs 0.117) is not a valid distribution; a 2% up day with 7.7% realized and bearish headlines is far under 9%.",
+   "stance": "Body of the distribution is fairly priced with a mild bearish tilt from the Hormuz/oil shock, but both wings are quote-width artifacts \u2014 sell the implausibly fat 747 and 778 tails, respect the market between 755 and 770.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:07:39.001481+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 747.0,
+   "direction": "above",
+   "implied_p": 0.899,
+   "inferred_p": 0.965,
+   "edge": 0.066,
+   "confidence": 0.6,
+   "rationale": "2.04% down day is ~2.6 sigma on 13.7% IV and ~4 sigma on 7.7% realized; market's 10% tail looks like deep-OTM put spread width, not a real Hormuz-shock odds.",
+   "stance": "Body of the distribution is fairly priced with a mild bearish tilt from the Hormuz/oil shock, but both wings are quote-width artifacts \u2014 sell the implausibly fat 747 and 778 tails, respect the market between 755 and 770.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:02:22.989271+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 747.0,
+   "direction": "above",
+   "implied_p": 0.908,
+   "inferred_p": 0.96,
+   "edge": 0.052,
+   "confidence": 0.6,
+   "rationale": "Market prices ~9% odds of a >2% down day; realized vol 7.8% and 11 straight sub-1% sessions argue the put wing is inflated by skew and wide quotes.",
+   "stance": "IV at 13.9% is roughly double the 7.8% realized and the double ISM/JOLTS print does not justify it, so I sell both wings relative to the market \u2014 especially the 778 calls \u2014 while staying near-neutral in the body given genuine two-sided geopolitical and labor-data risk.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T14:02:22.988234+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 778.0,
+   "direction": "below",
+   "implied_p": 0.1,
+   "inferred_p": 0.025,
+   "edge": -0.075,
+   "confidence": 0.65,
+   "rationale": "+2.0% overnight is ~2.8sd on realized vol with oil spiking and futures soft; the 0.10 mark looks like a wide, illiquid call-wing quote, not a real probability.",
+   "stance": "IV at 13.9% is roughly double the 7.8% realized and the double ISM/JOLTS print does not justify it, so I sell both wings relative to the market \u2014 especially the 778 calls \u2014 while staying near-neutral in the body given genuine two-sided geopolitical and labor-data risk.",
+   "structure": "convex long put 762.0",
+   "contracts": 32,
+   "limit_debit": 1.96,
+   "max_loss": 6272.0,
+   "breakeven_p": null,
+   "gates": [
+    {
+     "gate": "G6 kill switch",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G1 defined risk",
+     "passed": true,
+     "detail": "debit 1.96, 1L/0S, width 0.0"
+    },
+    {
+     "gate": "G2 per-trade budget",
+     "passed": true,
+     "detail": "max loss $6,272 vs budget $12,580"
+    },
+    {
+     "gate": "G3 portfolio heat",
+     "passed": true,
+     "detail": "open $44,295 + new $6,272 vs cap $52,418"
+    },
+    {
+     "gate": "G4 circuit breaker",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G5 liquidity",
+     "passed": true,
+     "detail": "tight"
+    },
+    {
+     "gate": "G7 concentration",
+     "passed": true,
+     "detail": "QQQ/SPY: $23,885 + $6,272 vs $55,039"
+    },
+    {
+     "gate": "G8 sanity",
+     "passed": true,
+     "detail": "single leg debit"
+    }
+   ],
+   "action": "submitted",
+   "status": "submitted",
+   "order_id": "cf6c1c51-5697-42a6-b6b9-156ce712df9d",
+   "client_order_id": "pythia-4d46145ef6164db7"
+  },
+  {
+   "ts": "2026-09-01T13:57:25.225847+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 746.0,
+   "direction": "above",
+   "implied_p": 0.909,
+   "inferred_p": 0.96,
+   "edge": 0.051,
+   "confidence": 0.55,
+   "rationale": "-2.4 sigma at 0.85% daily vol; even with fat left tail from Hormuz/oil gap risk, 9.1% implied breach looks like wide 1DTE put-wing quotes.",
+   "stance": "Take the market at and near the money and price the expiry with ~0.85% daily sigma (above 7.9% realized, just under 14.3% implied) to respect the ISM/JOLTS double print and live Hormuz risk; the only real disagreements are both wings, where 1DTE quotes imply ~9% tail odds on each side \u2014 I fade the u",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T13:57:25.223537+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 777.0,
+   "direction": "below",
+   "implied_p": 0.092,
+   "inferred_p": 0.03,
+   "edge": -0.062,
+   "confidence": 0.6,
+   "rationale": "+2.35 sigma, a >2% up day; ISM/JOLTS rarely delivers that and oil shock caps upside \u2014 0.092 implied is far-wing quote noise.",
+   "stance": "Take the market at and near the money and price the expiry with ~0.85% daily sigma (above 7.9% realized, just under 14.3% implied) to respect the ISM/JOLTS double print and live Hormuz risk; the only real disagreements are both wings, where 1DTE quotes imply ~9% tail odds on each side \u2014 I fade the u",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T13:47:35.780616+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 777.0,
+   "direction": "below",
+   "implied_p": 0.073,
+   "inferred_p": 0.018,
+   "edge": -0.055,
+   "confidence": 0.7,
+   "rationale": "+2.0% in one session on an oil-shock, hawkish-repricing tape. Market's 0.073 vs 0.117 at 769 implies a rising far-OTM density \u2014 stale/wide call wing, not real probability.",
+   "stance": "Implied 14.5% against 7.8% realized is a rich premium and both wings show inverted implied densities, so I fade the tails toward a tighter distribution while retaining a modest left skew for overnight Hormuz/oil gap risk and the 9:00am CT ISM/JOLTS double print; the far OTM call at 777 is the one la",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T13:43:49.340547+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-02",
+   "strike": 706.0,
+   "direction": "below",
+   "implied_p": 0.573,
+   "inferred_p": 0.51,
+   "edge": -0.063,
+   "confidence": 0.6,
+   "rationale": "Market's 0.573 sits above spot 705.96 and is incoherent with its own 699/713 quotes (0.227 vs 0.321 buckets); 1-day risk-neutral median should sit at spot, so I shade down.",
+   "stance": "I broadly accept the market's downside skew given live Middle East and rate-repricing risk, but fade the center and the upper wing: the ATM digital is quoted above spot and internally inconsistent with its neighbors, and 21.7% implied against 14.7% realized overstates a moderate ISM/JOLTS catalyst.",
+   "structure": "put debit spread 706.0/702.0",
+   "contracts": 35,
+   "limit_debit": 1.41,
+   "max_loss": 4935.0,
+   "breakeven_p": 0.352,
+   "gates": [
+    {
+     "gate": "G6 kill switch",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G1 defined risk",
+     "passed": true,
+     "detail": "debit 1.41, 1L/1S, width 4.0"
+    },
+    {
+     "gate": "G2 per-trade budget",
+     "passed": true,
+     "detail": "max loss $4,935 vs budget $13,101"
+    },
+    {
+     "gate": "G3 portfolio heat",
+     "passed": true,
+     "detail": "open $34,600 + new $4,935 vs cap $54,587"
+    },
+    {
+     "gate": "G4 circuit breaker",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G5 liquidity",
+     "passed": true,
+     "detail": "tight"
+    },
+    {
+     "gate": "G7 concentration",
+     "passed": true,
+     "detail": "QQQ/SPY: $14,190 + $4,935 vs $57,316"
+    },
+    {
+     "gate": "G8 sanity",
+     "passed": true,
+     "detail": "breakeven p 0.35 vs inferred 0.51"
+    }
+   ],
+   "action": "submitted",
+   "status": "submitted",
+   "order_id": "6e469c38-a240-4b43-bb07-2eb8e964012b",
+   "client_order_id": "pythia-a81d7db9e33da142"
+  },
+  {
+   "ts": "2026-09-01T13:42:31.947235+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-02",
+   "strike": 777.0,
+   "direction": "below",
+   "implied_p": 0.1,
+   "inferred_p": 0.03,
+   "edge": -0.07,
+   "confidence": 0.65,
+   "rationale": "A 10% chance of a +2.0% single-day gap is implausible with 7.9% realized and risk-off headlines; this call wing looks stale or one-sided-wide.",
+   "stance": "Respect the market near the money but sell both wings modestly and the upside wing aggressively: implied 15.3% vs 7.9% realized overprices the body for a second-tier ISM/JOLTS print, while the +2% call tail at 10% is simply not a real distribution in an oil-shock, four-down-day tape.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-09-01T13:41:42.545341+00:00",
+   "symbol": "SPY260901P00766000",
+   "action": "banked",
+   "unrealized_plpc": 1.929
+  },
+  {
+   "ts": "2026-08-31T19:42:29.359882+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-01",
+   "strike": 782.0,
+   "direction": "below",
+   "implied_p": 0.071,
+   "inferred_p": 0.01,
+   "edge": -0.061,
+   "confidence": 0.8,
+   "rationale": "+2.0% in one session is >3 sigma with no bullish catalyst before expiry; 0.071 nearly equals the 774 quote, so it is a wing pricing floor, not signal.",
+   "stance": "Vol is overpriced (IV 10.1 vs RV 7.5) and the body of the distribution is fairly marked, but both wings are quote-artifact garbage \u2014 sell the 782 call side and the 748 put side, stay flat ATM.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-08-31T19:42:29.359443+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-01",
+   "strike": 748.0,
+   "direction": "above",
+   "implied_p": 0.917,
+   "inferred_p": 0.99,
+   "edge": 0.073,
+   "confidence": 0.85,
+   "rationale": "748 is -2.4% / ~4 sigma at a 4.6pt 1-day sigma; the 0.917 quote is a stale wide-spread artifact (flat vs 759), not a real tail estimate.",
+   "stance": "Vol is overpriced (IV 10.1 vs RV 7.5) and the body of the distribution is fairly marked, but both wings are quote-artifact garbage \u2014 sell the 782 call side and the 748 put side, stay flat ATM.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-08-31T19:38:22.871035+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-01",
+   "strike": 747.0,
+   "direction": "above",
+   "implied_p": 0.904,
+   "inferred_p": 0.985,
+   "edge": 0.081,
+   "confidence": 0.8,
+   "rationale": "747 is -2.6% (~4 sigma at 10.4% IV); market's 0.904 sits only 1.4pts above the 759 mark, so the deep put wing is stale/wide, not a real probability.",
+   "stance": "ATM is a genuine coin flip near 0.48 and I defer to the market there; both outer wings are quote artifacts \u2014 the chain prices almost no mass between 747/759 and 774/782 \u2014 so I mark deep OTM strikes far closer to zero and one while staying close to the market near the money.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-08-31T19:32:38.280782+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-01",
+   "strike": 782.0,
+   "direction": "below",
+   "implied_p": 0.078,
+   "inferred_p": 0.01,
+   "edge": -0.068,
+   "confidence": 0.82,
+   "rationale": "+2.0% in one session is >3\u03c3 from a calm range-bound tape; implied 0.078 is a penny-bid wing artifact. ISM/JOLTS is not a +2% upside catalyst.",
+   "stance": "Range-bound, low-realized-vol tape into a Tue ISM/JOLTS double print \u2014 I hold near the market at the two liquid strikes (766, 774) and fade both wings hard, where the quoted implieds are internally incoherent (0.886 at -3.9\u03c3, 0.078 at +3.1\u03c3) rather than informative; tail asymmetry skewed left for th",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-08-31T19:32:38.280084+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-01",
+   "strike": 747.0,
+   "direction": "above",
+   "implied_p": 0.886,
+   "inferred_p": 0.99,
+   "edge": 0.104,
+   "confidence": 0.82,
+   "rationale": "1d sigma is ~5pts at 10.6% IV, so 747 is -3.9\u03c3; implied 0.886 is a deep-ITM wide-quote artifact, not information. Iran headline justifies only a modest left-tail bump.",
+   "stance": "Range-bound, low-realized-vol tape into a Tue ISM/JOLTS double print \u2014 I hold near the market at the two liquid strikes (766, 774) and fade both wings hard, where the quoted implieds are internally incoherent (0.886 at -3.9\u03c3, 0.078 at +3.1\u03c3) rather than informative; tail asymmetry skewed left for th",
+   "structure": "convex long call 767.0",
+   "contracts": 58,
+   "limit_debit": 1.45,
+   "max_loss": 8410.0,
+   "breakeven_p": null,
+   "gates": [
+    {
+     "gate": "G6 kill switch",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G1 defined risk",
+     "passed": true,
+     "detail": "debit 1.45, 1L/0S, width 0.0"
+    },
+    {
+     "gate": "G2 per-trade budget",
+     "passed": true,
+     "detail": "max loss $8,410 vs budget $9,824"
+    },
+    {
+     "gate": "G3 portfolio heat",
+     "passed": false,
+     "detail": "open $34,600 + new $8,410 vs cap $39,297"
+    },
+    {
+     "gate": "G4 circuit breaker",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G5 liquidity",
+     "passed": true,
+     "detail": "tight"
+    },
+    {
+     "gate": "G7 concentration",
+     "passed": true,
+     "detail": "QQQ/SPY: $14,190 + $8,410 vs $36,841"
+    },
+    {
+     "gate": "G8 sanity",
+     "passed": true,
+     "detail": "single leg debit"
+    }
+   ],
+   "action": "blocked",
+   "reason": "G3 portfolio heat"
+  },
+  {
+   "ts": "2026-08-31T19:28:39.422889+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-01",
+   "strike": 697.0,
+   "direction": "above",
+   "implied_p": 0.879,
+   "inferred_p": 0.972,
+   "edge": 0.093,
+   "confidence": 0.82,
+   "rationale": "697 is -2.6% away on a 1DTE with ~0.66% daily sigma; implied 0.879 is far too low and looks like a stale/one-sided deep-ITM quote, not a real probability.",
+   "stance": "Broadly respect the chain except in the wings: the 697 mark is not a credible probability and the 730 call wing looks overpriced, while ATM I sit modestly below the market given the persistent downdrift, Iran/oil risk-off and a probable expiry-day ISM/JOLTS print.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-08-31T19:28:03.471202+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-01",
+   "strike": 782.0,
+   "direction": "below",
+   "implied_p": 0.07,
+   "inferred_p": 0.01,
+   "edge": -0.06,
+   "confidence": 0.9,
+   "rationale": "782 needs a ~2.0% one-day rally, ~3.1 sigma, with 10d realized only 7.6%. Implied 0.070 is a wide far-OTM call quote, not a credible tail estimate.",
+   "stance": "Tape is range-bound 762-771 with realized well under implied, so I sit close to the market at the ATM and 774 strikes but reject the wing implieds (747 far too low, 782 far too high) as illiquid-quote artifacts; the real edge is short both wings, not directional.",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-08-31T19:28:03.470893+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-01",
+   "strike": 747.0,
+   "direction": "above",
+   "implied_p": 0.883,
+   "inferred_p": 0.99,
+   "edge": 0.107,
+   "confidence": 0.91,
+   "rationale": "747 is 19.4 pts (~3.8 sigma) below spot on a 1-day horizon; implied 0.883 is a stale/one-sided deep-ITM quote artifact, not a real probability.",
+   "stance": "Tape is range-bound 762-771 with realized well under implied, so I sit close to the market at the ATM and 774 strikes but reject the wing implieds (747 far too low, 782 far too high) as illiquid-quote artifacts; the real edge is short both wings, not directional.",
+   "structure": "convex long call 767.0",
+   "contracts": 66,
+   "limit_debit": 1.46,
+   "max_loss": 9636.0,
+   "breakeven_p": null,
+   "gates": [
+    {
+     "gate": "G6 kill switch",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G1 defined risk",
+     "passed": true,
+     "detail": "debit 1.46, 1L/0S, width 0.0"
+    },
+    {
+     "gate": "G2 per-trade budget",
+     "passed": true,
+     "detail": "max loss $9,636 vs budget $9,839"
+    },
+    {
+     "gate": "G3 portfolio heat",
+     "passed": false,
+     "detail": "open $34,600 + new $9,636 vs cap $39,355"
+    },
+    {
+     "gate": "G4 circuit breaker",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G5 liquidity",
+     "passed": true,
+     "detail": "tight"
+    },
+    {
+     "gate": "G7 concentration",
+     "passed": true,
+     "detail": "QQQ/SPY: $14,190 + $9,636 vs $36,896"
+    },
+    {
+     "gate": "G8 sanity",
+     "passed": true,
+     "detail": "single leg debit"
+    }
+   ],
+   "action": "blocked",
+   "reason": "G3 portfolio heat"
+  },
+  {
+   "ts": "2026-08-31T19:24:34.296139+00:00",
+   "symbol": "QQQ",
+   "expiry": "2026-09-01",
+   "strike": 697.0,
+   "direction": "above",
+   "implied_p": 0.889,
+   "inferred_p": 0.975,
+   "edge": 0.086,
+   "confidence": 0.78,
+   "rationale": "K is -2.6 sigma on a 0.97% daily vol; market's 0.889 prices an 11% chance of a >2.5% down day, far above the base rate. Wide OTM put quote, not information.",
+   "stance": "Near-ATM quotes are roughly fair and I stay close to them with a small bearish tilt from the risk-off tape, but both wings are distorted by illiquid 1DTE quotes and I fade them toward a realistic 0.97% daily distribution while keeping tails fatter than pure lognormal in case ISM/JOLTS lands on the e",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-08-31T19:23:31.832840+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-01",
+   "strike": 759.0,
+   "direction": "above",
+   "implied_p": 0.841,
+   "inferred_p": 0.905,
+   "edge": 0.064,
+   "confidence": 0.55,
+   "rationale": "-0.94% is ~1.5 daily sigma; Gaussian says 0.93, fattened for macro-print gap and geopolitical risk-off gives ~0.90 vs market 0.841.",
+   "stance": "Vol is well-behaved (10d realized 7.6 vs 10.5 IV) so the body of the distribution is fairly priced and I sit on the market at 766 and 774; both wings are quote artifacts \u2014 the 747/759 puts are far too expensive and the 782 calls far too rich \u2014 so my edge is entirely in selling the disconnected wings",
+   "action": "skipped",
+   "reason": "no viable structure/size"
+  },
+  {
+   "ts": "2026-08-31T19:23:31.831344+00:00",
+   "symbol": "SPY",
+   "expiry": "2026-09-01",
+   "strike": 747.0,
+   "direction": "above",
+   "implied_p": 0.874,
+   "inferred_p": 0.978,
+   "edge": 0.104,
+   "confidence": 0.72,
+   "rationale": "747 is 2.5% / ~4 sigma below spot on a 1DTE with 10.5 IV; implied 0.874 is a stale wide-quote artifact, not a real tail price. Iran headline keeps left tail fat, not that fat.",
+   "stance": "Vol is well-behaved (10d realized 7.6 vs 10.5 IV) so the body of the distribution is fairly priced and I sit on the market at 766 and 774; both wings are quote artifacts \u2014 the 747/759 puts are far too expensive and the 782 calls far too rich \u2014 so my edge is entirely in selling the disconnected wings",
+   "structure": "convex long call 767.0",
+   "contracts": 54,
+   "limit_debit": 1.4,
+   "max_loss": 7560.0,
+   "breakeven_p": null,
+   "gates": [
+    {
+     "gate": "G6 kill switch",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G1 defined risk",
+     "passed": true,
+     "detail": "debit 1.40, 1L/0S, width 0.0"
+    },
+    {
+     "gate": "G2 per-trade budget",
+     "passed": true,
+     "detail": "max loss $7,560 vs budget $9,836"
+    },
+    {
+     "gate": "G3 portfolio heat",
+     "passed": false,
+     "detail": "open $34,600 + new $7,560 vs cap $39,345"
+    },
+    {
+     "gate": "G4 circuit breaker",
+     "passed": true,
+     "detail": "clear"
+    },
+    {
+     "gate": "G5 liquidity",
+     "passed": true,
+     "detail": "tight"
+    },
+    {
+     "gate": "G7 concentration",
+     "passed": true,
+     "detail": "QQQ/SPY: $14,190 + $7,560 vs $36,886"
+    },
+    {
+     "gate": "G8 sanity",
+     "passed": true,
+     "detail": "single leg debit"
+    }
+   ],
+   "action": "blocked",
+   "reason": "G3 portfolio heat"
+  }
+ ],
+ "letter_excerpt": "# Pythia daily letter \u2014 2026-09-01\n\n**Pythia \u2014 1 September 2026**\nEquity $109,584.33. +$9,584.33 against the $100,000 start.\n\n**What the market believed.** That a 1DTE SPY expiry deserved 13\u201315% implied against 7.4\u20137.9% realized, and that roughly 9% of that distribution sat above 779 with another 9% below 745. Both wings. Simultaneously. On a tape whose largest daily move in three weeks was \u22120.84%. QQQ ran the same trade in a louder shirt: 19.7\u201321.7% implied on 13.7% realized. Oil shock, Hormuz headlines, ISM and JOLTS landing together tomorrow morning \u2014 the premium had a story attached, and near the money the story was roughly right. I deferred to it.\n\n**Where we disagreed.** Not on vol. On"
+}
