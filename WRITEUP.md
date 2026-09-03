@@ -74,16 +74,21 @@ hackathon.
 
 ## Results
 
-- Equity ≈$109,333 on $100,000 (**+9.3%**) after 3 of 5 sessions: Day 1 −1.5%,
-  Day 2 +11.3%, Day 3 −0.2% while holding a QQQ 708/704 put spread (max loss
-  $3,058) overnight by design. [Thu night: final equity, %, round-trips, hit
-  rate, max drawdown, orders blocked by gates — from `scripts/snapshot.py`;
-  Brier scores from `scripts/calibrate.py`]
-- Two exits auto-banked by the take-profit rule (+193%, +101%).
-- Operator interventions, disclosed: none on entries; risk-reducing closes of
-  orphaned legs on Sep 1 during a config change. Agent orders carry `pythia-`
-  client ids, so the two are separable in the account history.
-- Daily letters, full decision journal, dashboard and the public grading
-  thread: see repo.
+- Dedicated $100,000 paper account PA3C8Y75G64Y, opened Aug 30 for this hackathon.
+  Daily closes as marked by Alpaca: Mon $98,474 (−1.5%), Tue $109,584 (+11.3%),
+  Wed $107,814 (−1.6%). Thu 9:42am CT: **$107,132, +7.1% on the week.**
+- Two exits auto-banked by the take-profit rule: SPY puts +193% at 8:41am and TSLA
+  puts +101% at 11:28am on Sep 1, with no human involved.
+- The graded call, in full: on Sep 2 the market implied 60.1% that QQQ finishes above
+  708 on Sep 3; Pythia said 52% and bought the 708/704 put debit spread, 22 contracts,
+  max loss $3,058 known before the order left. QQQ opened Sep 3 at 712 — **the market
+  was right and Pythia was wrong.** The loss is capped at the number the gate printed,
+  2.8% of equity, and it is in the journal with the reasoning that produced it. A
+  forecaster who only publishes the calls that land is not a forecaster.
+- Operator interventions, disclosed: none on entries; risk-reducing closes of orphaned
+  legs on Sep 1 during a config change. Agent orders carry `pythia-` client ids, so the
+  two are separable in the account history.
+- [Fri: final equity, round-trips, hit rate, max drawdown, gate blocks — `scripts/snapshot.py`;
+  Brier scores vs the market — `scripts/calibrate.py`]
 
 *Built solo by Allen Wang · github.com/allenwangg/pythia · demo video: [YouTube link]*
