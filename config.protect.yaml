@@ -1,0 +1,31 @@
+# PROTECT THE LEAD — small, capped, high-bar trades only. Hard 3%/day stop.
+universe: [SPY, QQQ, NVDA, TSLA, COIN]
+max_dte: 2
+min_dte: 1
+event_offsets: [-0.02, -0.01, 0.0, 0.01, 0.02]
+edge_threshold: 0.08
+min_confidence: 0.65
+max_trades_per_cycle: 1
+kelly_scalar: 0.5
+allow_spreads: true
+convexity_mode: false
+min_spread_width_frac: 0.005
+max_breakeven_prob: 0.80
+cross_frac: 0.60
+cancel_stale_after_min: 10
+slippage_buffer: 0.05
+cycle_minutes: 15
+options_feed: indicative
+llm_backend: cli
+model: claude-sonnet-5
+take_profit_close_plpc: 0.8
+spread_take_profit_frac: 0.6
+risk:
+  per_trade_max_frac: 0.03
+  portfolio_heat_frac: 0.10
+  daily_loss_halt_frac: 0.03
+  per_underlying_frac: 0.06
+  max_spread_frac: 0.30
+  max_friction_frac: 0.40
+  min_bid: 0.05
+  stop_entries_min_before_close: 15

@@ -89,7 +89,7 @@ class _FakeMD:
 class _FakeAnalyst:
     """Disagrees upward by 12 points on every event — enough to trade."""
 
-    def assess(self, symbol, spot, expiry, dte, bars, events, vol_context=""):
+    def assess(self, symbol, spot, expiry, dte, bars, events, vol_context="", news=None):
         return {"stance": "selftest: constructive on dips",
                 "events": [{"strike": e["strike"],
                             "p_above": min(e["implied_p"] + 0.12, 0.97),

@@ -138,8 +138,12 @@ class Pythia:
 
         bars = self.md.recent_bars(symbol)
         vol_context = self._vol_context(bars, sl, spot)
+        try:
+            news = self.md.recent_news(symbol)
+        except Exception:
+            news = []
         assessment = self.analyst.assess(symbol, spot, sl.expiry.isoformat(),
-                                         sl.dte, bars, events, vol_context)
+                                         sl.dte, bars, events, vol_context, news)
         if assessment is None:
             return out
 

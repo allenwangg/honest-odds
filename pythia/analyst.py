@@ -30,6 +30,8 @@ Respond with STRICT JSON only. No markdown, no code fences, no prose outside JSO
 
 PROMPT_TEMPLATE = """UNDERLYING: {symbol}   SPOT: {spot}   EXPIRY: {expiry} ({dte} DTE)
 VOL REGIME: {vol}
+LATEST HEADLINES (Alpaca News, newest first; may be empty):
+{news}
 
 RECENT DAILY BARS (date, close, pct change):
 {bars}
@@ -61,14 +63,16 @@ class Analyst:
 
     def assess(self, symbol: str, spot: float, expiry: str, dte: int,
                bars: list[dict], events: list[dict],
-               vol_context: str = "(n/a)") -> dict | None:
+               vol_context: str = "(n/a)",
+               news: list[str] | None = None) -> dict | None:
         """events: [{"strike": float, "implied_p": float}] -> validated assessment or None."""
         bars_txt = "\n".join(f"  {b['date']}  {b['close']}  {b['pct']:+.2f}%" for b in bars) or "  (none)"
         events_txt = "\n".join(f"  K={e['strike']}: implied P(above) = {e['implied_p']:.3f}"
                                for e in events)
         prompt = PROMPT_TEMPLATE.format(symbol=symbol, spot=round(spot, 2), expiry=expiry,
                                         dte=dte, bars=bars_txt, macro=self._macro_notes(),
-                                        events=events_txt, vol=vol_context)
+                                        events=events_txt, vol=vol_context,
+                                        news="\n".join(f"  {h}" for h in (news or [])) or "  (none)")
         for attempt in (1, 2):
             try:
                 suffix = "" if attempt == 1 else \

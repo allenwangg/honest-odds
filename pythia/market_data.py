@@ -9,9 +9,11 @@ import datetime as dt
 from dataclasses import dataclass, field
 
 from alpaca.data.enums import OptionsFeed
+from alpaca.data.historical.news import NewsClient
 from alpaca.data.historical.option import OptionHistoricalDataClient
 from alpaca.data.historical.stock import StockHistoricalDataClient
-from alpaca.data.requests import OptionChainRequest, StockBarsRequest, StockLatestTradeRequest
+from alpaca.data.requests import (NewsRequest, OptionChainRequest, StockBarsRequest,
+                                  StockLatestTradeRequest)
 from alpaca.data.timeframe import TimeFrame
 from alpaca.trading.client import TradingClient
 
@@ -65,6 +67,7 @@ class MarketData:
         self.trading = TradingClient(cfg.alpaca_key, cfg.alpaca_secret, paper=True)
         self.options = OptionHistoricalDataClient(cfg.alpaca_key, cfg.alpaca_secret)
         self.stocks = StockHistoricalDataClient(cfg.alpaca_key, cfg.alpaca_secret)
+        self.news = NewsClient(cfg.alpaca_key, cfg.alpaca_secret)
         self.feed = OptionsFeed.OPRA if cfg.options_feed == "opra" else OptionsFeed.INDICATIVE
 
     # ---------- underlying ----------
@@ -87,6 +90,21 @@ class MarketData:
                          "pct": round(pct, 2)})
             prev = close
         return rows
+
+    def recent_news(self, symbol: str, hours: int = 6, limit: int = 5) -> list[str]:
+        """Latest headlines via Alpaca News API. Any failure returns []."""
+        try:
+            start = dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=hours)
+            resp = self.news.get_news(NewsRequest(symbols=symbol, start=start,
+                                                  limit=limit, exclude_contentless=True))
+            items = getattr(resp, "news", None) or getattr(resp, "data", {}).get("news", [])
+            out = []
+            for n in items[:limit]:
+                ts = n.created_at.strftime("%H:%M") if getattr(n, "created_at", None) else ""
+                out.append(f"[{ts}Z] {n.headline}"[:160])
+            return out
+        except Exception:
+            return []
 
     # ---------- options ----------
 
