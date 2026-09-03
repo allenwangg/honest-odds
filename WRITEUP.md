@@ -74,21 +74,37 @@ hackathon.
 
 ## Results
 
-- Dedicated $100,000 paper account PA3C8Y75G64Y, opened Aug 30 for this hackathon.
-  Daily closes as marked by Alpaca: Mon $98,474 (−1.5%), Tue $109,584 (+11.3%),
-  Wed $107,814 (−1.6%). Thu 9:42am CT: **$107,132, +7.1% on the week.**
-- Two exits auto-banked by the take-profit rule: SPY puts +193% at 8:41am and TSLA
+Dedicated $100,000 paper account **PA3C8Y75G64Y**, opened Aug 30 for this hackathon.
+Daily closes as marked by Alpaca: Mon $98,474 (−1.5%) · Tue $109,584 (+11.3%) ·
+Wed $107,814 (−1.6%) · **Thu $106,824 — +6.8% on the week**, flat into Friday payrolls.
+9 orders placed by the agent, 7 vetoed by gates (6 on portfolio heat, 1 on liquidity),
+zero manual entries.
+
+- **Two exits auto-banked by the take-profit rule**: SPY puts +193% at 8:41am and TSLA
   puts +101% at 11:28am on Sep 1, with no human involved.
-- The graded call, in full: on Sep 2 the market implied 60.1% that QQQ finishes above
+- **Forecast quality, scored properly.** 37 resolved forecasts graded against official
+  closes with the Brier rule, benchmarked against the same option chain they were read
+  from: **market 0.0566, Pythia 0.0159 — 72% lower.** On the seven near-coin-flip
+  questions (market 40–60%) the market went 3-for-7 and Pythia went 7-for-7:
+  0.2319 vs 0.0395, 83% lower. Optimal shrinkage toward the market prior grid-searched
+  to **λ = 0.00**. Full table, method and caveats in **CALIBRATION.md**.
+- **The finding I did not want.** Splitting those forecasts by direction of disagreement:
+  where Pythia was more bullish than the chain it scored 96% better; where it was more
+  *bearish* it scored 11% **worse**. Buying a put spread is a bearish disagreement, so
+  the trade filter fires precisely where the model has no measured edge — and it did.
+  Pythia produced four losing forecasts all week and **three of them are the three it
+  traded.** n=16 on the bearish side over four sessions is not yet a fact, which is why
+  it is logged rather than patched into the config; `scripts/calibrate.py` is built to
+  settle it with more data.
+- **The graded call, in full.** On Sep 2 the chain implied 60% that QQQ finishes above
   708 on Sep 3; Pythia said 52% and bought the 708/704 put debit spread, 22 contracts,
-  max loss $3,058 known before the order left. QQQ opened Sep 3 at 712 — **the market
-  was right and Pythia was wrong.** The loss is capped at the number the gate printed,
-  2.8% of equity, and it is in the journal with the reasoning that produced it. A
-  forecaster who only publishes the calls that land is not a forecaster.
-- Operator interventions, disclosed: none on entries; risk-reducing closes of orphaned
-  legs on Sep 1 during a config change. Agent orders carry `pythia-` client ids, so the
-  two are separable in the account history.
-- [Fri: final equity, round-trips, hit rate, max drawdown, gate blocks — `scripts/snapshot.py`;
-  Brier scores vs the market — `scripts/calibrate.py`]
+  filled at 1.27 for a maximum loss of $2,794 known before the order left. QQQ closed
+  Sep 3 at **717.67** — the market was right and Pythia was wrong. Realised loss $2,750,
+  inside the cap the gate printed, and it is in the journal with the reasoning that
+  produced it. A forecaster who only publishes the calls that land is not a forecaster.
+- **Operator interventions, disclosed**: none on entries; risk-reducing closes of orphaned
+  legs on Sep 1 during a config change, and a `--flatten` at 11:14am Thu to avoid holding
+  a 0-DTE put spread into assignment risk overnight. Agent orders carry `pythia-` client
+  ids, so the two are separable in the account history.
 
 *Built solo by Allen Wang · github.com/allenwangg/pythia · demo video: [YouTube link]*
