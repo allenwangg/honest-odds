@@ -29,16 +29,44 @@ Nothing below can be finished without its output.
   9:50  paste finals into the lablab form. Submit. Screenshot the confirmation.
  10:00  DEADLINE. Post the finale, quote the pinned teaser, tag the hosts.
 
-## TWO THINGS IN WRITEUP.md THAT ARE STILL WRONG
+## WRITEUP.md — DONE THURSDAY NIGHT, one item left
 
-1. **Line ~79** cites `Thu 9:42am CT: $107,132, +7.1%`. That is an INTRADAY MARK,
-   not a close. This is the same error already caught once for Wednesday
-   ($109,333 was a 2:45pm mark, never a close). Replace it with Thursday's
-   actual close from the snapshot, and say "close" explicitly.
-2. **Line ~94** still reads `demo video: [YouTube link]`. Paste the real URL.
+~~Line ~79 cited an intraday mark~~ — **fixed.** The Results section now carries
+Thursday's close ($106,824, +6.8%), the corrected QQQ numbers (closed 717.67,
+$2,750 realised against a $2,794 cap), the gate counts (9 placed / 7 vetoed),
+and the calibration result. `CALIBRATION.md` is new and committed.
 
-Then the bracketed Results line fills from `snapshot.py` + `calibrate.py`:
-final equity, round-trips, hit rate, max drawdown, gate blocks, Brier vs market.
+**The one thing still wrong:** the last line still reads `demo video: [YouTube link]`.
+Paste the real URL there before you push.
+
+## WHAT LANDED THURSDAY NIGHT
+
+- `CALIBRATION.md` — 37 forecasts graded against official closes. Market Brier
+  0.0566, Pythia 0.0159, 72% lower. Coin-flips: market 3/7, Pythia 7/7. λ = 0.00.
+  Plus the self-critical finding: bearish disagreements scored 11% *worse* than
+  the chain, and the three trades it took were three of its four losing calls.
+- Deck slide 8 Brier boxes filled; slide 10 carries the final numbers and the
+  equity curve now runs through Thursday. `~/Downloads/pythia-deck-FINAL.pptx`
+  is the file to upload — the old `pythia-deck-filled.pptx` is stale.
+- Two social cards in `~/Downloads/`: `card_day4_calibration.png` and
+  `card_day4_ledger.png`.
+- Commit `4973181` is local and **not pushed yet**. Push it (command below).
+
+## PUSH (git left two lock files behind — remove them first)
+
+    cd ~/Downloads/pythia
+    rm -f .git/HEAD.lock .git/index.lock
+    git push
+
+## STILL WORTH TEN MINUTES: the missing fund letters
+
+`journal/letters/` has 2026-08-31 and 2026-09-01 only. The README tells judges to
+read the letters and two of five days are missing. One command each:
+
+    python run.py --letter
+
+Run it once tonight for Sep 3. If it will not backfill Sep 2, leave it — a
+three-letter journal is still better than the field's zero.
 
 ## SUBMISSION CHECKLIST (the only thing that can still change the result)
 

@@ -1,351 +1,490 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="An autonomous options agent that reads the options chain as a prediction market. +6.8% on a dedicated $100k Alpaca paper account, and a Brier score 72% better than the chain it forecasts against.">
+<meta property="og:title" content="Pythia — the options chain is a prediction market">
+<meta property="og:description" content="+6.8% on a dedicated $100k Alpaca paper account. Brier 0.0159 against the chain's 0.0566. Every forecast published before it resolved and graded after.">
 <title>Pythia — the options chain is a prediction market</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,800;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 :root{
-  --ink:#12161B; --panel:#1A2027; --line:#2A323B;
-  --parch:#E7E1D3; --faded:#8B94A0; --dim:#5A6472;
-  --gold:#CBA84C; --slate:#7C93A6; --gain:#7BA886; --loss:#C0655A;
-  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
-  --display:'Fraunces',Georgia,serif;
+  --paper:#EFF0EC; --surface:#F8F8F5; --sunk:#E5E7E1;
+  --ink:#14171A; --ink-2:#4C535A; --ink-3:#767D84;
+  --rule:#D3D6CF; --rule-soft:#E2E4DE;
+  --indigo:#2E3A8C; --indigo-soft:#2E3A8C1F;
+  --red:#9C3423; --red-soft:#9C342314;
+  --green:#1C6A56;
+  --shadow:0 1px 2px rgba(20,23,26,.05);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--ink);color:var(--parch);font-family:var(--mono);
-     font-size:15px;line-height:1.6}
-.wrap{max-width:980px;margin:0 auto;padding:0 24px}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#131519; --surface:#1A1D22; --sunk:#0E1014;
+    --ink:#E9EBE6; --ink-2:#A0A7AE; --ink-3:#798087;
+    --rule:#2B3038; --rule-soft:#22262C;
+    --indigo:#93A0EC; --indigo-soft:#93A0EC1F;
+    --red:#E28C79; --red-soft:#E28C7914;
+    --green:#5DC1A4;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131519; --surface:#1A1D22; --sunk:#0E1014;
+  --ink:#E9EBE6; --ink-2:#A0A7AE; --ink-3:#798087;
+  --rule:#2B3038; --rule-soft:#22262C;
+  --indigo:#93A0EC; --indigo-soft:#93A0EC1F;
+  --red:#E28C79; --red-soft:#E28C7914;
+  --green:#5DC1A4;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
 
-/* nav dots */
-.dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:50;
-      display:flex;flex-direction:column;gap:11px}
-.dots a{width:9px;height:9px;border-radius:50%;border:1px solid var(--line);
-        background:transparent;transition:.3s;display:block}
-.dots a.on{background:var(--gold);border-color:var(--gold);transform:scale(1.3)}
-@media(max-width:820px){.dots{display:none}}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Spectral,Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.62; font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.wrap{max-width:1100px; margin:0 auto; padding:0 28px}
+.col{max-width:64ch}
+h1,h2,h3{text-wrap:balance; margin:0}
+a{color:var(--indigo); text-decoration:none; border-bottom:1px solid var(--indigo-soft)}
+a:hover{border-bottom-color:currentColor}
+a:focus-visible{outline:2px solid var(--indigo); outline-offset:3px; border-radius:2px}
 
-section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
-        padding:80px 0;opacity:0;transform:translateY(24px);
-        transition:opacity .9s ease,transform .9s ease}
-section.in{opacity:1;transform:none}
-.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-         color:var(--gold);margin-bottom:18px}
-h1{font-family:var(--display);font-weight:650;font-size:clamp(48px,9vw,104px);
-   line-height:.95;letter-spacing:.01em}
-h2{font-family:var(--display);font-weight:650;font-size:clamp(30px,4.6vw,50px);
-   line-height:1.1;margin-bottom:18px}
-p{color:var(--faded);max-width:64ch;margin-bottom:16px}
-p strong{color:var(--parch);font-weight:500}
-.lede{font-size:19px;color:var(--parch)}
+/* ── masthead ─────────────────────────────────────────── */
+.mast{padding:60px 0 30px}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--ink-3);
+}
+.mast h1{
+  font-size:clamp(52px,9vw,88px); font-weight:800; line-height:.92;
+  letter-spacing:-.025em; margin:14px 0 0;
+}
+.tagline{
+  font-size:clamp(20px,2.6vw,27px); font-weight:300; font-style:italic;
+  color:var(--ink-2); margin:12px 0 0; max-width:22ch; line-height:1.28;
+}
+.mast-meta{
+  display:flex; flex-wrap:wrap; gap:8px 26px; margin-top:30px;
+  padding-top:18px; border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+}
+.mast-meta b{color:var(--ink-2); font-weight:500}
 
-/* hero */
-.tag{font-size:clamp(15px,2.2vw,23px);color:var(--gold);margin-top:20px}
-.rule{height:1px;background:var(--line);margin:30px 0;max-width:340px}
-.scroll{margin-top:52px;color:var(--dim);font-size:12px;letter-spacing:.16em}
-.scroll span{display:inline-block;animation:bob 2s infinite}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+/* ── section scaffolding ──────────────────────────────── */
+section{padding:52px 0; border-top:1px solid var(--rule-soft)}
+.slug{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--indigo);
+  margin-bottom:20px;
+}
+h2{font-size:clamp(27px,3.6vw,36px); font-weight:600; letter-spacing:-.015em; line-height:1.16}
+h3{font-size:19px; font-weight:600; margin-bottom:6px}
+p{margin:16px 0}
+p.lede{font-size:20px; color:var(--ink-2); line-height:1.55}
 
-/* the price->probability demo */
-.demo{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:34px 0}
-@media(max-width:760px){.demo{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:26px}
-.card .lbl{font-size:12px;color:var(--faded);margin-bottom:8px}
-.big{font-family:var(--display);font-weight:650;font-size:60px;line-height:1}
-.gold{color:var(--gold)} .slatey{color:var(--slate)}
-.slider{width:100%;margin:22px 0 6px;-webkit-appearance:none;height:3px;
-        background:var(--line);border-radius:2px;outline:none}
-.slider::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;
-  border-radius:50%;background:var(--gold);cursor:pointer;border:3px solid var(--ink)}
-.slider::-moz-range-thumb{width:19px;height:19px;border-radius:50%;
-  background:var(--gold);cursor:pointer;border:3px solid var(--ink)}
-.hint{font-size:12px;color:var(--dim)}
+/* ── figure / chart ───────────────────────────────────── */
+figure{margin:0}
+.chart-frame{
+  background:var(--surface); border:1px solid var(--rule);
+  border-radius:3px; padding:26px 22px 18px; box-shadow:var(--shadow);
+  overflow-x:auto;
+}
+.chart-frame svg{display:block; width:100%; min-width:560px; height:auto}
+.legend{
+  display:flex; flex-wrap:wrap; gap:10px 24px; margin-top:16px; padding-top:14px;
+  border-top:1px solid var(--rule-soft);
+  font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-2);
+}
+.legend span{display:flex; align-items:center; gap:8px}
+.swatch{width:20px; height:0; border-top-width:2.5px; border-top-style:solid}
+figcaption{margin-top:16px; font-size:15.5px; color:var(--ink-2); max-width:70ch}
 
-/* curve */
-.chartbox{background:var(--panel);border:1px solid var(--line);border-radius:6px;
-          padding:20px;margin:26px 0}
-svg{width:100%;height:auto;display:block}
-.axis{stroke:var(--line);stroke-width:1}
-.grid{stroke:var(--line);stroke-width:1;stroke-dasharray:3 5;opacity:.55}
-.curve{fill:none;stroke:var(--gold);stroke-width:3;stroke-linecap:round;
-       stroke-dasharray:2000;stroke-dashoffset:2000;transition:stroke-dashoffset 2.2s ease}
-section.in .curve{stroke-dashoffset:0}
-.tick{fill:var(--dim);font-family:var(--mono);font-size:11px}
-.mk{fill:var(--ink);stroke:var(--slate);stroke-width:2.5}
-.py{fill:var(--gold)}
-.gapline{stroke:var(--gold);stroke-width:3;opacity:.55}
-.note{fill:var(--parch);font-family:var(--mono);font-size:13px}
-.notedim{fill:var(--faded);font-family:var(--mono);font-size:12px}
+/* ── figures strip ────────────────────────────────────── */
+.strip{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  border:1px solid var(--rule); border-radius:3px; background:var(--surface);
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.fig{padding:22px 24px; border-right:1px solid var(--rule-soft)}
+.fig:last-child{border-right:0}
+.fig-n{
+  font-family:"IBM Plex Mono",monospace; font-size:30px; font-weight:500;
+  letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1.1;
+}
+.fig-l{font-size:14px; color:var(--ink-3); margin-top:5px; line-height:1.35}
+.pos{color:var(--green)}
+.neg{color:var(--red)}
 
-/* gates */
-.gates{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:26px}
-@media(max-width:760px){.gates{grid-template-columns:1fr}}
-.gate{background:var(--panel);border:1px solid var(--line);border-radius:5px;
-      padding:15px 18px;display:flex;gap:14px;align-items:flex-start;
-      opacity:0;transform:translateY(12px);transition:.5s}
-section.in .gate{opacity:1;transform:none}
-.gate b{color:var(--gold);font-size:14px;min-width:26px}
-.gate .n{color:var(--parch);font-size:14.5px;display:block;margin-bottom:3px}
-.gate .d{color:var(--faded);font-size:12.5px}
+/* ── tables ───────────────────────────────────────────── */
+.tbl-wrap{overflow-x:auto; margin:26px 0}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:15px}
+caption{
+  text-align:left; font-family:"IBM Plex Mono",monospace; font-size:11px;
+  font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); padding-bottom:10px;
+}
+th{
+  text-align:right; font-family:"IBM Plex Mono",monospace; font-size:11px;
+  font-weight:500; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--ink-3); padding:0 0 8px; border-bottom:1px solid var(--rule);
+}
+th:first-child{text-align:left}
+td{
+  padding:11px 0; border-bottom:1px solid var(--rule-soft); text-align:right;
+  font-family:"IBM Plex Mono",monospace; font-size:14.5px;
+  font-variant-numeric:tabular-nums;
+}
+td:first-child{
+  text-align:left; font-family:Spectral,Georgia,serif; font-size:16px;
+  padding-right:24px;
+}
+tr:last-child td{border-bottom:0}
+td.win{color:var(--green); font-weight:500}
+td.lose{color:var(--red); font-weight:500}
+td .n{color:var(--ink-3); font-size:12.5px}
 
-/* stats */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
-@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px}
-.stat .v{font-family:var(--display);font-weight:650;font-size:34px}
-.stat .k{font-size:11.5px;color:var(--faded);margin-top:5px}
+/* ── callout ──────────────────────────────────────────── */
+.callout{
+  border-left:2px solid var(--red); background:var(--red-soft);
+  padding:20px 24px; margin:28px 0; border-radius:0 3px 3px 0;
+}
+.callout p{margin:0}
+.callout p + p{margin-top:12px}
+.callout strong{font-weight:600}
 
-/* steps */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
-@media(max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
-.step{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px}
-.step .num{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--ink);
-  display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;
-  margin-bottom:13px}
-.step h3{font-size:15px;color:var(--parch);margin-bottom:7px;letter-spacing:.06em}
-.step p{font-size:12.5px;margin:0}
+/* ── ticket ───────────────────────────────────────────── */
+.ticket{
+  background:var(--surface); border:1px solid var(--rule); border-radius:3px;
+  box-shadow:var(--shadow); padding:4px 24px; max-width:520px;
+}
+.row{
+  display:flex; justify-content:space-between; align-items:baseline; gap:20px;
+  padding:12px 0; border-bottom:1px solid var(--rule-soft);
+}
+.row:last-child{border-bottom:0}
+.row dt{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-3);
+}
+.row dd{
+  margin:0; font-family:"IBM Plex Mono",monospace; font-size:15px;
+  font-variant-numeric:tabular-nums; text-align:right;
+}
 
-a.cta{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--line);
-      padding-bottom:2px}
-a.cta:hover{border-color:var(--gold)}
-footer{padding:60px 0 80px;color:var(--dim);font-size:12px;border-top:1px solid var(--line)}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}
-  section{opacity:1;transform:none} .curve{stroke-dashoffset:0}}
+/* ── gates ────────────────────────────────────────────── */
+.gates{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  gap:1px; background:var(--rule-soft); border:1px solid var(--rule);
+  border-radius:3px; overflow:hidden; margin:26px 0;
+}
+.gate{background:var(--surface); padding:16px 18px}
+.gate-k{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  color:var(--indigo); letter-spacing:.1em;
+}
+.gate-n{font-size:16px; font-weight:600; margin-top:3px}
+.gate-d{font-size:13.5px; color:var(--ink-3); line-height:1.45; margin-top:3px}
+
+/* ── two-up ───────────────────────────────────────────── */
+.two{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:28px; margin:26px 0}
+.pane{border-top:2px solid var(--indigo); padding-top:16px}
+.pane h3{margin-bottom:8px}
+.pane p{margin:0; font-size:16px; color:var(--ink-2)}
+.pane code{
+  font-family:"IBM Plex Mono",monospace; font-size:13px;
+  background:var(--sunk); padding:1px 5px; border-radius:2px; color:var(--ink)
+}
+
+/* ── links ────────────────────────────────────────────── */
+.links{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1px; background:var(--rule-soft); border:1px solid var(--rule); border-radius:3px; overflow:hidden}
+.lk{background:var(--surface); padding:18px 20px; display:block; border:0}
+.lk:hover{background:var(--sunk)}
+.lk-t{font-size:16px; font-weight:600; color:var(--ink)}
+.lk-d{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3); margin-top:3px; word-break:break-all}
+
+footer{
+  padding:40px 0 60px; border-top:1px solid var(--rule); margin-top:52px;
+  font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-3);
+  line-height:1.7;
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 20px}
+  section{padding:40px 0}
+  .fig{border-right:0; border-bottom:1px solid var(--rule-soft)}
+}
 </style>
 </head>
 <body>
-
-<nav class="dots" id="dots"></nav>
-
 <div class="wrap">
 
-<section id="s1" class="in">
-  <h1>PYTHIA</h1>
-  <div class="tag">the options chain is a prediction market</div>
-  <div class="rule"></div>
-  <p class="lede">An AI agent that reads market-implied probabilities off the options
-     chain, forms its own with Claude, and trades the disagreements — behind eight risk gates.</p>
-  <div class="scroll">SCROLL <span>↓</span></div>
-</section>
+<header class="mast">
+  <div class="eyebrow">Alpaca AI Trading Agents Hackathon &nbsp;·&nbsp; Options Alpha Agents</div>
+  <h1>Pythia</h1>
+  <p class="tagline">The options chain is a prediction market.</p>
+  <div class="mast-meta">
+    <span>Aug 31 – Sep 4 <b>2026</b></span>
+    <span>Alpaca paper account <b>PA3C8Y75G64Y</b></span>
+    <span>Options only, <b>paper by construction</b></span>
+    <span>Built <b>solo</b></span>
+  </div>
+</header>
 
-<section id="s2">
-  <div class="eyebrow">the hidden number</div>
-  <h2>Every option price is a probability in disguise</h2>
-  <p>Imagine a bet: <strong>I pay you $1 if SPY closes above $505 on Friday</strong>,
-     nothing otherwise. What's it worth today? Obviously it depends on the odds —
-     near-certain is worth almost a dollar, near-impossible almost nothing.</p>
-  <p>So the price <em>is</em> the probability. Drag the price and watch.</p>
-
-  <div class="demo">
-    <div class="card">
-      <div class="lbl">the contract trades at</div>
-      <div class="big gold" id="priceOut">$0.31</div>
-      <input type="range" min="1" max="99" value="31" class="slider" id="priceSlider"
-             aria-label="contract price in cents">
-      <div class="hint">drag me</div>
+<section>
+  <div class="slug">The thesis, drawn from one afternoon's quotes</div>
+  <figure>
+    <div class="chart-frame">
+      <svg viewBox="0 0 1000 470" role="img" aria-label="QQQ probability curve for the September 2 expiry: the market's implied probabilities against Pythia's estimates across strikes 692 to 728, with the actual close at 709.24 marked.">
+        <!-- gridlines -->
+        <g stroke="var(--rule-soft)" stroke-width="1">
+          <line x1="70" y1="30"    x2="960" y2="30"/>
+          <line x1="70" y1="117.5" x2="960" y2="117.5"/>
+          <line x1="70" y1="205"   x2="960" y2="205"/>
+          <line x1="70" y1="292.5" x2="960" y2="292.5"/>
+        </g>
+        <line x1="70" y1="380" x2="960" y2="380" stroke="var(--rule)" stroke-width="1.5"/>
+        <!-- y labels -->
+        <g fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="end">
+          <text x="56" y="35">100%</text>
+          <text x="56" y="122">75%</text>
+          <text x="56" y="209">50%</text>
+          <text x="56" y="297">25%</text>
+          <text x="56" y="384">0%</text>
+        </g>
+        <!-- gap between the two curves -->
+        <path fill="var(--indigo-soft)" stroke="none"
+          d="M150.9,68.5 L332.9,82.5 L434.1,180.5 L838.6,348.5 L858.9,345 L879.1,348.5 L879.1,369.5 L858.9,369.5 L838.6,369.5 L434.1,201.5 L332.9,103.5 L150.9,47.5 Z"/>
+        <!-- actual close -->
+        <line x1="499.6" y1="30" x2="499.6" y2="380" stroke="var(--red)" stroke-width="1.5" stroke-dasharray="3 4"/>
+        <text x="507" y="46" fill="var(--red)" font-family="IBM Plex Mono, monospace" font-size="12.5" font-weight="500">QQQ closed 709.24</text>
+        <!-- market curve -->
+        <path fill="none" stroke="var(--ink-2)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
+          d="M150.9,68.5 L332.9,82.5 L434.1,180.5 L838.6,348.5 L858.9,345 L879.1,348.5"/>
+        <g fill="var(--ink-2)">
+          <circle cx="150.9" cy="68.5" r="4"/><circle cx="332.9" cy="82.5" r="4"/>
+          <circle cx="434.1" cy="180.5" r="4"/><circle cx="838.6" cy="348.5" r="4"/>
+          <circle cx="858.9" cy="345" r="4"/><circle cx="879.1" cy="348.5" r="4"/>
+        </g>
+        <!-- pythia curve -->
+        <path fill="none" stroke="var(--indigo)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
+          d="M150.9,47.5 L332.9,103.5 L434.1,201.5 L838.6,369.5 L858.9,369.5 L879.1,369.5"/>
+        <g fill="var(--indigo)">
+          <circle cx="150.9" cy="47.5" r="4"/><circle cx="332.9" cy="103.5" r="4"/>
+          <circle cx="434.1" cy="201.5" r="4"/><circle cx="838.6" cy="369.5" r="4"/>
+          <circle cx="858.9" cy="369.5" r="4"/><circle cx="879.1" cy="369.5" r="4"/>
+        </g>
+        <!-- the traded strike -->
+        <circle cx="434.1" cy="180.5" r="8" fill="none" stroke="var(--ink-2)" stroke-width="1.2"/>
+        <circle cx="434.1" cy="201.5" r="8" fill="none" stroke="var(--indigo)" stroke-width="1.2"/>
+        <line x1="418" y1="250" x2="430" y2="214" stroke="var(--ink-3)" stroke-width="1"/>
+        <text x="410" y="256" fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="end">706 — the strike it traded</text>
+        <text x="410" y="274" fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="end">chain 57%  ·  Pythia 51%</text>
+        <!-- x labels -->
+        <g fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle">
+          <text x="150.9" y="404">692</text><text x="312.7" y="404">700</text>
+          <text x="515" y="404">710</text><text x="717.3" y="404">720</text>
+          <text x="919.5" y="404">730</text>
+        </g>
+        <text x="515" y="432" fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle" letter-spacing="1">STRIKE &nbsp;·&nbsp; QQQ, EXPIRING SEP 2 2026</text>
+      </svg>
+      <div class="legend">
+        <span><i class="swatch" style="border-top-color:var(--ink-2)"></i> the chain — P(close &gt; K), read off live quotes</span>
+        <span><i class="swatch" style="border-top-color:var(--indigo)"></i> Pythia's independent estimate</span>
+        <span><i class="swatch" style="border-top-color:var(--red); border-top-style:dashed"></i> what actually happened</span>
+      </div>
     </div>
-    <div class="card">
-      <div class="lbl">so the market believes</div>
-      <div class="big" id="probOut">31%</div>
-      <p style="font-size:13px;margin:14px 0 0">Price and probability are the same
-         number wearing a different hat. And that contract already exists — buy the
-         505 call, sell the 506 call.</p>
+    <figcaption>
+      Six strikes, one expiry, real quotes. The grey line is what everyone quoting that chain
+      collectively believed; the indigo line is what Pythia believed after being shown the same
+      chain and told to argue with it. The shaded region is the only thing it trades. At 706 it
+      leaned bearish against a 57% market — and QQQ closed at 709.24, above the strike. The
+      market was right.
+    </figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="slug">Five sessions, one account</div>
+  <div class="strip">
+    <div class="fig"><div class="fig-n">$106,824</div><div class="fig-l">closing equity on $100,000</div></div>
+    <div class="fig"><div class="fig-n pos">+6.8%</div><div class="fig-l">four trading sessions</div></div>
+    <div class="fig"><div class="fig-n">9 <span style="color:var(--ink-3)">/</span> 7</div><div class="fig-l">agent orders placed / vetoed by gates</div></div>
+    <div class="fig"><div class="fig-n">0</div><div class="fig-l">entries placed by a human</div></div>
+  </div>
+  <div class="col">
+    <p class="lede">Every option price is a probability in disguise.</p>
+    <p>By Breeden–Litzenberger, the slope of call prices across strikes is the market's own
+    probability that the underlying finishes above that strike. So a live options chain is a
+    prediction market, quoting odds on hundreds of events all day, priced by people with money
+    at stake. Almost nobody reads it that way.</p>
+    <p>Pythia reads it that way. Each cycle it pulls near-dated chains for SPY, QQQ, NVDA, TSLA
+    and COIN through Alpaca's options data API and rebuilds that probability curve from live
+    quotes — no-arbitrage cleanup, stale and one-sided quotes rejected, put–call parity used as a
+    lie detector. It hands the curve to Claude as a calibrated forecaster whose prior <em>is</em>
+    the market's number, and trades only where the two disagree by enough, as a defined-risk debit
+    spread whose maximum loss is known to the dollar before the order leaves.</p>
+  </div>
+</section>
+
+<section>
+  <div class="slug">The scoring</div>
+  <div class="col">
+    <h2>Every forecast is written down before it resolves, and graded after.</h2>
+    <p>Not just the ones that became trades — the skipped and gate-blocked ones too, so the brain
+    is scored even when the hands were tied. The rule is <strong>Brier</strong>: mean squared error
+    of a probability against a 0/1 outcome. It is <em>proper</em>, meaning the only way to minimise
+    it is to report what you actually believe. Hedging toward 50% is penalised; so is bluster.</p>
+    <p>The benchmark isn't a naive baseline. It's the chain itself — the same quotes the forecast
+    was read from.</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <caption>37 resolved forecasts · graded against official closes · lower is better</caption>
+      <thead><tr><th>Subset</th><th>The chain</th><th>Pythia</th><th>Δ</th></tr></thead>
+      <tbody>
+        <tr><td>All resolved <span class="n">n=37</span></td><td>0.0566</td><td>0.0159</td><td class="win">−72%</td></tr>
+        <tr><td>Genuinely uncertain <span class="n">market 25–75% · n=8</span></td><td>0.2228</td><td>0.0634</td><td class="win">−72%</td></tr>
+        <tr><td>Near coin-flip <span class="n">market 40–60% · n=7</span></td><td>0.2319</td><td>0.0395</td><td class="win">−83%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col">
+    <p>On those seven coin-flips the market went three-for-seven. Pythia went seven-for-seven. The
+    pipeline then grid-searches the shrinkage λ in <span class="mono">p = (1−λ)·p_model + λ·p_market</span>
+    that would have scored best, and feeds it back into config. This week the answer was
+    <strong>λ = 0.00</strong> — no amount of deference to the market improved the score. That is a
+    measurement, not a preference.</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <caption>The same 37, split by which way it disagreed</caption>
+      <thead><tr><th>Direction of disagreement</th><th>The chain</th><th>Pythia</th><th>Δ</th></tr></thead>
+      <tbody>
+        <tr><td>More bullish than the chain <span class="n">n=21</span></td><td>0.0773</td><td>0.0030</td><td class="win">−96%</td></tr>
+        <tr><td>More bearish than the chain <span class="n">n=16</span></td><td>0.0293</td><td>0.0327</td><td class="lose">+11%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout col">
+    <p><strong>Buying a put spread is a bearish disagreement.</strong> So the trade filter fires
+    precisely on the one subset where the model scored worse than the market it was arguing with.</p>
+    <p>Pythia produced four losing forecasts all week. Three of them are the three it traded.</p>
+  </div>
+
+  <div class="col">
+    <p>The honest caveats, since a proper scoring rule is only worth publishing if it can embarrass
+    you: n=37 over four sessions is small; ten strikes on one underlying for one expiry resolve on a
+    single draw, so the effective sample is nearer eight than thirty-seven; and 65% of scored
+    strikes closed above their level in a week that trended up, which flatters a forecaster who was
+    systematically more bullish and more confident. Sixteen bearish observations is not yet enough
+    to justify patching the config, which is why the finding is logged rather than acted on.</p>
+  </div>
+</section>
+
+<section>
+  <div class="slug">The graded call</div>
+  <div class="col"><h2>Posted publicly before it resolved. Graded the next morning.</h2></div>
+  <div class="two">
+    <dl class="ticket">
+      <div class="row"><dt>The chain said</dt><dd>60% &nbsp; QQQ &gt; 708</dd></div>
+      <div class="row"><dt>Pythia said</dt><dd>52%</dd></div>
+      <div class="row"><dt>Structure</dt><dd>708/704 put debit spread</dd></div>
+      <div class="row"><dt>Size</dt><dd>22 contracts @ 1.27</dd></div>
+      <div class="row"><dt>Max loss, declared</dt><dd>$2,794</dd></div>
+      <div class="row"><dt>QQQ closed</dt><dd>717.67</dd></div>
+      <div class="row"><dt>Verdict</dt><dd style="color:var(--red); font-weight:600">the market was right</dd></div>
+      <div class="row"><dt>Realised</dt><dd style="color:var(--red)">−$2,750</dd></div>
+    </dl>
+    <div class="col">
+      <p>The loss came in $44 inside the cap the gate printed before the order was sent, which is
+      the entire point of the gate. The position was closed at 11:14 the next morning rather than
+      held to expiry, because a long put settling in-the-money auto-exercises into short shares —
+      unbounded overnight risk on an options-only mandate, the night before a payrolls print.</p>
+      <p>It is in the journal with the reasoning that produced it. A forecaster who only publishes
+      the calls that land is not a forecaster.</p>
     </div>
   </div>
 </section>
 
-<section id="s3">
-  <div class="eyebrow">the whole distribution</div>
-  <h2>Do it at every strike</h2>
-  <p>One strike gives one probability. Every strike gives you the market's complete
-     forecast for Friday's close — free, live, and almost nobody looks at it.</p>
-  <div class="chartbox">
-    <svg viewBox="0 0 900 360" role="img" aria-label="Market-implied probability curve">
-      <line class="axis" x1="70" y1="310" x2="870" y2="310"/>
-      <line class="axis" x1="70" y1="30" x2="70" y2="310"/>
-      <line class="grid" x1="70" y1="30" x2="870" y2="30"/>
-      <line class="grid" x1="70" y1="100" x2="870" y2="100"/>
-      <line class="grid" x1="70" y1="170" x2="870" y2="170"/>
-      <line class="grid" x1="70" y1="240" x2="870" y2="240"/>
-      <text class="tick" x="40" y="35">100</text>
-      <text class="tick" x="46" y="175">50</text>
-      <text class="tick" x="52" y="314">0</text>
-      <path id="curvePath" class="curve"/>
-      <text class="notedim" x="440" y="345">strike price →</text>
-      <text class="notedim" x="14" y="180" transform="rotate(-90 14,180)">P( close above K )</text>
-    </svg>
+<section>
+  <div class="slug">What stands between a plan and the exchange</div>
+  <div class="col">
+    <h2>Eight gates with no ML and no LLM inside them.</h2>
+    <p>The intelligence upstream can be wrong — that is what a probabilistic forecast means. These
+    cannot be argued with. Limits are parameters; the gates are not.</p>
   </div>
-  <p style="font-size:13.5px">Formally: <strong>−∂C/∂K = Q(S<sub>T</sub> &gt; K)</strong>.
-     Breeden–Litzenberger, 1978. Not exotic — plumbing.</p>
-</section>
-
-<section id="s4">
-  <div class="eyebrow">the trade</div>
-  <h2>Bet only on the disagreement</h2>
-  <p>Pythia asks Claude for an independent estimate of the same probabilities — with
-     one rule: <strong>the market's number is your prior, and you must argue before
-     leaving it.</strong> Most of the time they agree and nothing happens. That's the
-     correct outcome, and it's most of the day.</p>
-  <div class="chartbox">
-    <svg viewBox="0 0 900 320" role="img" aria-label="Market versus Pythia probability on one strike">
-      <line class="axis" x1="70" y1="270" x2="870" y2="270"/>
-      <line class="grid" x1="70" y1="40" x2="870" y2="40"/>
-      <line class="grid" x1="70" y1="155" x2="870" y2="155"/>
-      <text class="tick" x="40" y="45">100</text>
-      <text class="tick" x="46" y="159">50</text>
-      <text class="tick" x="52" y="274">0</text>
-      <line class="gapline" x1="450" y1="196" x2="450" y2="121"/>
-      <polygon class="mk" points="450,196 462,208 450,220 438,208"/>
-      <circle class="py" cx="450" cy="121" r="11"/>
-      <text class="note" x="482" y="127">Pythia · 44%</text>
-      <text class="notedim" x="482" y="213">market · 31%</text>
-      <text class="note" x="482" y="168">the disagreement: +13 points</text>
-      <text class="notedim" x="70" y="300">SPY closing above 505 on Friday</text>
-    </svg>
+  <div class="gates">
+    <div class="gate"><div class="gate-k">G1</div><div class="gate-n">Defined risk</div><div class="gate-d">Net-debit structures only. Bounded max loss, no naked shorts.</div></div>
+    <div class="gate"><div class="gate-k">G2</div><div class="gate-n">Per-trade budget</div><div class="gate-d">Hard cap on the loss any single position may carry.</div></div>
+    <div class="gate"><div class="gate-k">G3</div><div class="gate-n">Portfolio heat</div><div class="gate-d">Cap on total open cost basis. Vetoed six orders this week.</div></div>
+    <div class="gate"><div class="gate-k">G4</div><div class="gate-n">Circuit breaker</div><div class="gate-d">New entries halt past a daily loss limit. Fails closed.</div></div>
+    <div class="gate"><div class="gate-k">G5</div><div class="gate-n">Liquidity</div><div class="gate-d">Real bids, spread and friction tolerance on every leg.</div></div>
+    <div class="gate"><div class="gate-k">G6</div><div class="gate-n">Kill switch</div><div class="gate-d">A file on disk. Present means no entries, instantly.</div></div>
+    <div class="gate"><div class="gate-k">G7</div><div class="gate-n">Concentration</div><div class="gate-d">Per-underlying exposure cap, independent of total heat.</div></div>
+    <div class="gate"><div class="gate-k">G8</div><div class="gate-n">Sanity</div><div class="gate-d">The edge must survive the actual fill: debit/width &lt; inferred P.</div></div>
   </div>
-  <p style="font-size:13.5px">Position size scales with edge × confidence, hard-capped.
-     Fractional Kelly under model uncertainty — maximize long-run growth without
-     betting the account on being right about being right.</p>
-</section>
-
-<section id="s5">
-  <div class="eyebrow">the cycle</div>
-  <h2>What happens every fifteen minutes</h2>
-  <div class="steps">
-    <div class="step"><div class="num">1</div><h3>READ</h3>
-      <p>Pull the chain from Alpaca, compute the probability curve, cross-check it against puts.</p></div>
-    <div class="step"><div class="num">2</div><h3>THINK</h3>
-      <p>Claude estimates the same probabilities independently, with the market as its prior.</p></div>
-    <div class="step"><div class="num">3</div><h3>GATE</h3>
-      <p>Eight hard rules stand between any plan and the exchange. All must pass.</p></div>
-    <div class="step"><div class="num">4</div><h3>ACT</h3>
-      <p>Multi-leg limit order, journaled reasoning, winners banked automatically.</p></div>
+  <div class="col">
+    <p>Positions are managed by rule too. A take-profit rule closed SPY puts at +193% and TSLA puts
+    at +101% on the same morning, with no human involved and no model consulted.</p>
   </div>
 </section>
 
-<section id="s6">
-  <div class="eyebrow">the unglamorous part</div>
-  <h2>Eight gates, none of them intelligent</h2>
-  <p>Being right about probability doesn't make money if you size wrong. These rules
-     contain no model and no LLM — <strong>the smart part can be wrong; the dumb part
-     can't be talked into anything.</strong></p>
-  <div class="gates" id="gates">
-    <div class="gate"><b>G1</b><div><span class="n">Defined risk only</span><span class="d">net debit, bounded loss, never a naked short</span></div></div>
-    <div class="gate"><b>G2</b><div><span class="n">Per-trade budget</span><span class="d">max loss ≤ a fixed slice of equity</span></div></div>
-    <div class="gate"><b>G3</b><div><span class="n">Portfolio heat</span><span class="d">ceiling on total open exposure</span></div></div>
-    <div class="gate"><b>G4</b><div><span class="n">Circuit breaker</span><span class="d">a bad enough day halts new entries</span></div></div>
-    <div class="gate"><b>G5</b><div><span class="n">Liquidity</span><span class="d">real bids, spread within tolerance</span></div></div>
-    <div class="gate"><b>G6</b><div><span class="n">Kill switch</span><span class="d">a file named KILL stops everything</span></div></div>
-    <div class="gate"><b>G7</b><div><span class="n">Concentration</span><span class="d">SPY and QQQ share one correlated bucket</span></div></div>
-    <div class="gate"><b>G8</b><div><span class="n">Sanity</span><span class="d">edge must survive the actual fill price</span></div></div>
-  </div>
-</section>
-
-<section id="s7">
-  <div class="eyebrow">the trap</div>
-  <h2>Stale quotes manufacture fake edges</h2>
-  <p>Free market data goes stale, and stale prices invent opportunities that were never
-     there. A naive agent "arbitrages" phantoms all day and never knows.</p>
-  <div class="demo">
-    <div class="card">
-      <div class="lbl">on any live chain</div>
-      <div style="font-size:30px;color:var(--parch);margin:12px 0">C − P = S − K</div>
-      <p style="font-size:13px;margin:0">Put–call parity. Holds to within pennies on
-         short-dated contracts. It's arbitrage, not a model.</p>
+<section>
+  <div class="slug">Alpaca, twice</div>
+  <div class="col"><h2>One brokerage account, two interfaces, each doing what it is best at.</h2></div>
+  <div class="two">
+    <div class="pane">
+      <h3>Execution — Trading API</h3>
+      <p>Atomic multi-leg <code>MLEG</code> limit orders at net debit. Deterministic
+      <code>pythia-</code> client order ids, so a restart cannot double-enter. Auto-retry on
+      price-increment rejects, and a <code>--flatten</code> that closes everything and cancels the
+      rest. The loop needs determinism, not judgment.</p>
     </div>
-    <div class="card">
-      <div class="lbl">when it breaks by dollars</div>
-      <div style="font-size:30px;color:var(--loss);margin:12px 0">the chain is lying</div>
-      <p style="font-size:13px;margin:0">Pythia measures the median parity residual every
-         cycle and refuses to trade any symbol that fails it.</p>
+    <div class="pane">
+      <h3>Supervision — official MCP server</h3>
+      <p>Alpaca's own MCP server, connected to the same account, is how a human interrogates and
+      overrides the agent in plain English: <em>"close the QQQ put spread — I disagree with today's
+      thesis."</em> The human needs language, not an order ticket. Setup that actually works is in
+      <code>mcp/README.md</code>.</p>
     </div>
   </div>
-</section>
-
-<section id="s8">
-  <div class="eyebrow">the honest part</div>
-  <h2>Every forecast gets graded</h2>
-  <p>Each prediction is journaled and scored when it resolves — against reality, and
-     against what the market believed at the same moment. The Brier score is a
-     <strong>strictly proper</strong> scoring rule: the only way to score well is to
-     report what you actually believe.</p>
-  <div class="stats">
-    <div class="stat"><div class="v gold" id="v1">—</div><div class="k">Pythia Brier</div></div>
-    <div class="stat"><div class="v slatey" id="v2">—</div><div class="k">market Brier</div></div>
-    <div class="stat"><div class="v" id="v3">—</div><div class="k">events resolved</div></div>
-    <div class="stat"><div class="v" id="v4">—</div><div class="k">orders gates blocked</div></div>
+  <div class="col">
+    <p>The loop never asks the model for permission. The human never places an order by hand. Every
+    decision — traded, skipped, gate-blocked, banked — lands in the journal with its thesis, and
+    Claude writes a nightly fund letter from it.</p>
   </div>
-  <p style="margin-top:22px;font-size:13.5px">Blocked and rehearsed decisions get graded
-     too — so the brain is scored even when the hands were tied. The best-scoring
-     shrinkage factor feeds back into position sizing, which keeps the agent's
-     confidence an empirical quantity rather than a mood.</p>
 </section>
 
-<section id="s9">
-  <h2>The chain talks.</h2>
-  <h2 style="color:var(--gold)">Pythia listens, disagrees<br>carefully, and writes<br>everything down.</h2>
-  <div class="rule" style="margin-top:34px"></div>
-  <p><a class="cta" href="https://github.com/allenwangg/pythia">github.com/allenwangg/pythia</a></p>
-  <p style="font-size:12.5px">Built solo for the Alpaca AI Trading Agents Hackathon.
-     Paper trading only — not investment advice.</p>
+<section>
+  <div class="slug">Open everything</div>
+  <div class="links">
+    <a class="lk" href="https://github.com/allenwangg/pythia"><span class="lk-t">Source</span><span class="lk-d">github.com/allenwangg/pythia</span></a>
+    <a class="lk" href="https://github.com/allenwangg/pythia/blob/master/CALIBRATION.md"><span class="lk-t">Calibration</span><span class="lk-d">CALIBRATION.md — the full table and its caveats</span></a>
+    <a class="lk" href="https://github.com/allenwangg/pythia/blob/master/THEORY.md"><span class="lk-t">The math</span><span class="lk-d">THEORY.md — every identity mapped to its module</span></a>
+    <a class="lk" href="https://github.com/allenwangg/pythia/tree/master/journal/letters"><span class="lk-t">Fund letters</span><span class="lk-d">journal/letters — written nightly, from the journal</span></a>
+    <a class="lk" href="https://github.com/allenwangg/pythia/blob/master/journal/decisions.jsonl"><span class="lk-t">Decision journal</span><span class="lk-d">decisions.jsonl — every forecast, before it resolved</span></a>
+    <a class="lk" href="https://github.com/allenwangg/pythia/blob/master/WRITEUP.md"><span class="lk-t">Write-up</span><span class="lk-d">WRITEUP.md — one page, results included</span></a>
+  </div>
 </section>
 
-<footer class="wrap">PYTHIA · the options chain is a prediction market</footer>
+<footer>
+  Paper trading only, by construction — the client is hard-coded <span class="mono">paper=True</span> and there is no live code path.<br>
+  Nothing here is investment advice. Figures are from a dedicated Alpaca paper account and are reproducible from the journal in the repository.<br>
+  Built solo by Allen Wang for the Alpaca AI Trading Agents Hackathon, Aug–Sep 2026.
+</footer>
+
 </div>
 
-<script>
-// price <-> probability demo
-const ps = document.getElementById('priceSlider');
-const po = document.getElementById('priceOut'), pr = document.getElementById('probOut');
-function sync(){ const c = +ps.value;
-  po.textContent = '$' + (c/100).toFixed(2);
-  pr.textContent = c + '%'; }
-ps.addEventListener('input', sync); sync();
-
-// probability curve (Black-Scholes N(d2))
-function erf(x){const t=1/(1+.3275911*Math.abs(x));
-  const y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-.284496736)*t+.254829592)*t*Math.exp(-x*x);
-  return x>=0?y:-y;}
-const N=x=>.5*(1+erf(x/Math.SQRT2));
-(function drawCurve(){
-  const S=500,T=3/252,V=.18,pts=[];
-  for(let k=486;k<=514;k+=.5){
-    const p=N((Math.log(S/k)-V*V/2*T)/(V*Math.sqrt(T)));
-    const x=70+((k-486)/28)*800, y=310-p*280;
-    pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
-  }
-  document.getElementById('curvePath').setAttribute('d','M'+pts.join(' L'));
-})();
-
-// reveal on scroll + nav dots
-const secs=[...document.querySelectorAll('section')];
-const dots=document.getElementById('dots');
-secs.forEach(s=>{const a=document.createElement('a');a.href='#'+s.id;dots.appendChild(a);});
-const links=[...dots.children];
-const io=new IntersectionObserver(es=>{es.forEach(e=>{
-  if(e.isIntersecting){ e.target.classList.add('in');
-    const i=secs.indexOf(e.target);
-    links.forEach((l,j)=>l.classList.toggle('on',j===i));
-    // stagger gate cards
-    if(e.target.id==='s6') [...document.querySelectorAll('.gate')]
-      .forEach((g,j)=>g.style.transitionDelay=(j*60)+'ms');
-  }});},{threshold:.35});
-secs.forEach(s=>io.observe(s));
-
-// count-up stats (edit these four numbers after the week)
-const RESULTS={v1:'0.00',v2:'0.00',v3:'0',v4:'0'};
-const so=new IntersectionObserver(es=>es.forEach(e=>{
-  if(e.isIntersecting){ Object.entries(RESULTS).forEach(([id,val])=>{
-    const el=document.getElementById(id); if(!el)return;
-    const target=parseFloat(val), dec=val.includes('.')?2:0;
-    let cur=0; const step=target/34;
-    const t=setInterval(()=>{cur+=step; if(cur>=target){cur=target;clearInterval(t);}
-      el.textContent=cur.toFixed(dec);},22);
-  }); so.disconnect(); }}),{threshold:.4});
-const s8=document.getElementById('s8'); if(s8) so.observe(s8);
-</script>
 </body>
 </html>
