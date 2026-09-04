@@ -1,19 +1,19 @@
 {
- "ts": "2026-09-03T14:55:46.839043+00:00",
+ "ts": "2026-09-03T16:02:42.310824+00:00",
  "market": {
   "is_open": true,
   "next_open": "2026-09-04T09:30:00-04:00",
   "next_close": "2026-09-03T16:00:00-04:00"
  },
  "account": {
-  "equity": 107241.85,
+  "equity": 106823.85,
   "cash": 106779.85,
   "options_buying_power": 106779.85,
   "day_start_equity": 107813.85,
-  "day_pnl": -572.0,
-  "day_pnl_pct": -0.531,
-  "total_pnl": 7241.85,
-  "total_pnl_pct": 7.242
+  "day_pnl": -990.0,
+  "day_pnl_pct": -0.918,
+  "total_pnl": 6823.85,
+  "total_pnl_pct": 6.824
  },
  "halted": false,
  "gates": [
@@ -530,6 +530,26 @@
   {
    "ts": "2026-09-03T14:55:46.838125+00:00",
    "equity": 107241.85
+  },
+  {
+   "ts": "2026-09-03T15:04:33.985359+00:00",
+   "equity": 107109.85
+  },
+  {
+   "ts": "2026-09-03T15:17:23.611238+00:00",
+   "equity": 106889.85
+  },
+  {
+   "ts": "2026-09-03T15:31:53.271952+00:00",
+   "equity": 106867.85
+  },
+  {
+   "ts": "2026-09-03T15:46:45.853385+00:00",
+   "equity": 106867.85
+  },
+  {
+   "ts": "2026-09-03T16:02:42.310048+00:00",
+   "equity": 106823.85
   }
  ],
  "positions": [
@@ -537,17 +557,17 @@
    "symbol": "QQQ260903P00704000",
    "qty": -22.0,
    "cost_basis": -2662.0,
-   "market_value": -198.0,
-   "unrealized_pl": 2464.0,
-   "unrealized_plpc": 92.56
+   "market_value": -88.0,
+   "unrealized_pl": 2574.0,
+   "unrealized_plpc": 96.69
   },
   {
    "symbol": "QQQ260903P00708000",
    "qty": 22.0,
    "cost_basis": 5456.0,
-   "market_value": 660.0,
-   "unrealized_pl": -4796.0,
-   "unrealized_plpc": -87.9
+   "market_value": 132.0,
+   "unrealized_pl": -5324.0,
+   "unrealized_plpc": -97.58
   }
  ],
  "decisions": [
