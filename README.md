@@ -1,3 +1,5 @@
+![Pythia — +193% winner · out-forecasts the chain](Pythia_Cover_Title.jpg)
+
 # PYTHIA
 
 **An agent that reads the options chain like a prediction market.**
