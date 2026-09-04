@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pythia — the options chain is a prediction market</title>
+<meta name="description" content="An autonomous options agent that reads market-implied probabilities off the chain, asks Claude where it disagrees, and trades the gap behind eight risk gates. +6.8% on $100k live paper; Brier 0.0159 vs the chain's 0.0566.">
+<meta property="og:title" content="Pythia — the options chain is a prediction market">
+<meta property="og:description" content="+6.8% on $100k live paper · Brier 0.0159 vs the chain's 0.0566 · 9 orders · 7 vetoed · zero manual. Every forecast journaled before it resolved.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://allenwangg.github.io/pythia/">
+<style>
+  :root{
+    --bg:#12151c; --panel:#171b24; --line:#2a3040;
+    --cream:#e9e6da; --gold:#c9b96e; --green:#3fd68b; --grey:#98a0ab;
+  }
+  *{box-sizing:border-box; margin:0}
+  body{
+    background:var(--bg); color:var(--cream);
+    font-family:Georgia,'Iowan Old Style','Times New Roman',serif;
+    line-height:1.55; padding:64px 24px 80px;
+  }
+  main{max-width:720px; margin:0 auto}
+  .mono{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+  h1{font-size:clamp(56px,10vw,88px); font-weight:900; letter-spacing:.01em; line-height:1}
+  .thesis{color:var(--gold); font-size:clamp(15px,2.6vw,19px); margin-top:10px; letter-spacing:.06em}
+  .rule{border:0; border-top:1px solid var(--line); margin:28px 0}
+  p.lede{color:var(--grey); font-size:17px; max-width:62ch}
+  p.lede b{color:var(--cream); font-weight:600}
+  .stats{color:var(--gold); font-size:13.5px; margin-top:18px; letter-spacing:.02em}
+  figure{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:22px 18px 14px; margin:34px 0 10px}
+  figcaption{color:var(--grey); font-size:13px; padding:10px 4px 2px; max-width:60ch}
+  svg{display:block; width:100%; height:auto}
+  .curve{stroke:var(--green); stroke-width:2.5; fill:none;
+         stroke-dasharray:1200; stroke-dashoffset:1200; animation:draw 1.6s ease-out .2s forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @media (prefers-reduced-motion:reduce){.curve{animation:none; stroke-dashoffset:0}}
+  .dot{fill:var(--green)}
+  .lbl{fill:var(--grey); font-size:12px}
+  .lbl-final{fill:var(--green); font-weight:600}
+  .links{display:flex; flex-wrap:wrap; gap:12px; margin-top:30px}
+  .links a{
+    color:var(--cream); text-decoration:none; font-size:13.5px;
+    border:1px solid var(--line); border-radius:6px; padding:10px 16px;
+  }
+  .links a:hover{border-color:var(--gold); color:var(--gold)}
+  .links a:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+  footer{color:var(--grey); font-size:12px; margin-top:56px}
+</style>
+</head>
+<body>
+<main>
+  <h1>PYTHIA</h1>
+  <div class="thesis mono">the options chain is a prediction market</div>
+  <hr class="rule">
+  <p class="lede">An autonomous options agent that reads market-implied probabilities off the chain
+  (Breeden–Litzenberger), asks <b>Claude</b> where it disagrees, and trades the gap —
+  always defined-risk, behind <b>eight plain-code gates</b> the model cannot argue with.
+  Built solo for the Alpaca AI Trading Agents Hackathon, Aug 28 – Sep 4, 2026.
+  Every forecast was journaled before it resolved and graded after.</p>
+  <div class="stats mono">+6.8% on $100k live paper &nbsp;·&nbsp; Brier 0.0159 vs the chain's 0.0566 &nbsp;·&nbsp; 9 orders · 7 vetoed · zero manual</div>
+
+  <figure>
+    <svg viewBox="0 0 700 260" role="img" aria-label="Equity curve over four sessions: 100,000 to 106,824 dollars, peaking at 109,584 on Tuesday">
+      <line x1="40" y1="220" x2="660" y2="220" stroke="#2a3040"/>
+      <path class="curve" d="M40,170 L195,189 L350,50 L505,72 L660,85"/>
+      <circle class="dot" cx="40" cy="170" r="4"/><circle class="dot" cx="195" cy="189" r="4"/>
+      <circle class="dot" cx="350" cy="50" r="4"/><circle class="dot" cx="505" cy="72" r="4"/>
+      <circle class="dot" cx="660" cy="85" r="5"/>
+      <text class="lbl mono" x="40" y="152" text-anchor="middle">$100,000</text>
+      <text class="lbl mono" x="195" y="210" text-anchor="middle">$98,474</text>
+      <text class="lbl mono" x="350" y="34" text-anchor="middle">$109,584</text>
+      <text class="lbl mono" x="505" y="56" text-anchor="middle">$107,814</text>
+      <text class="lbl mono lbl-final" x="640" y="68" text-anchor="end">$106,824 · +6.8%</text>
+      <text class="lbl mono" x="40" y="242" text-anchor="middle">Start</text>
+      <text class="lbl mono" x="195" y="242" text-anchor="middle">Mon</text>
+      <text class="lbl mono" x="350" y="242" text-anchor="middle">Tue</text>
+      <text class="lbl mono" x="505" y="242" text-anchor="middle">Wed</text>
+      <text class="lbl mono" x="660" y="242" text-anchor="middle">Thu</text>
+    </svg>
+    <figcaption>Four sessions on a dedicated Alpaca paper account. Exits banked by rule (+193%, +101%);
+    Thursday's losing spread is disclosed in the journal — the market was right that day.</figcaption>
+  </figure>
+
+  <nav class="links mono" aria-label="Project links">
+    <a href="https://github.com/allenwangg/pythia">Read the code</a>
+    <a href="https://github.com/allenwangg/pythia/blob/master/CALIBRATION.md">See the calibration</a>
+    <a href="https://github.com/allenwangg/pythia/tree/master/video">Watch the demo</a>
+    <a href="https://x.com/Earthiness16">Follow the thread</a>
+  </nav>
+
+  <footer class="mono">PYTHIA · built solo by Allen Wang · September 2026</footer>
+</main>
+</body>
+</html>
