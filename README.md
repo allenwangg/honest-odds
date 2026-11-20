@@ -1,8 +1,10 @@
-# PYTHIA
+# HONEST ODDS
+
+*Formerly **Pythia**. Code paths keep the old name (`pythia/`, `python -m pythia.scoring`), so nothing breaks.*
 
 **A Claude forecasting agent scored against the options market with a proper scoring rule.**
 
-Pythia reads the market's probability that SPY or QQQ closes above a strike straight off the
+Honest Odds reads the market's probability that SPY or QQQ closes above a strike straight off the
 option chain (Breeden–Litzenberger, `P(S > K) ≈ −∂C/∂K`), asks Claude for its own calibrated
 probability of the same event, journals both *before* the event resolves, and trades only
 when the gap survives eight hard-coded risk gates. Every forecast, including the ones it
@@ -16,17 +18,17 @@ Paper trading only: the client is hard-coded `paper=True`.
 | 33 resolved forecasts, SPY + QQQ, Aug 31 – Sep 3 2026 | Brier ↓ |
 |---|---|
 | Market (option-chain mid) | 0.0317 |
-| **Pythia (Claude)** | **0.0177** (44% lower) |
+| **Honest Odds (Claude)** | **0.0177** (44% lower) |
 
 - **The published headline was 0.0159 vs 0.0566 (72% lower) on 37 forecasts.** Four of those
-  were stale 0DTE quotes (~0.49 on strikes 1–2.5% in the money) that Pythia flagged as stale
+  were stale 0DTE quotes (~0.49 on strikes 1–2.5% in the money) that Honest Odds flagged as stale
   at the time. Counting a flagged data error as a forecasting win overstates the edge, so the
   number above excludes them. Both versions, and the script that produces them, are in
   [CALIBRATION.md](CALIBRATION.md#robustness-check-what-survives-removing-stale-quotes).
 - **Where the edge comes from:** mostly far-from-the-money strikes, where chain mid-prices
-  are noisy and Pythia correctly pushed them toward 0 or 1. On the 6 interior questions
+  are noisy and Honest Odds correctly pushed them toward 0 or 1. On the 6 interior questions
   (market 15–85%) the gap is 29%.
-- **The finding I'd act on:** when Pythia was more *bearish* than the chain it scored 11%
+- **The finding I'd act on:** when Honest Odds was more *bearish* than the chain it scored 11%
   *worse* (n = 16), and a put spread is a bearish bet, so the trade filter fired on the
   model's weak side. Two of its three worse-than-market forecasts were trades.
 - **Limits:** one up-trending week; strikes sharing a close aren't independent, so the
@@ -51,7 +53,7 @@ python tests/test_scoring.py                                             # offli
 
 It reports Brier for both sides, **which rows and groups carry the result** (leave-one-out),
 a cluster-bootstrap interval, **how many groups you'd need** to settle it, and a calibration
-table. Run on Pythia's own log (`data/forecasts_scored.jsonl`), the leave-one-out check puts
+table. Run on Honest Odds's own log (`data/forecasts_scored.jsonl`), the leave-one-out check puts
 the four stale quotes at the top of the list without being told about them. That is the
 check that should have run before the 72% was published.
 
@@ -63,7 +65,7 @@ forecasting, benchmark quality, a power analysis, and calibration under user pus
 
 Under the risk-neutral measure, `P(S > K at expiry) ≈ −dC/dK`. A tight call
 spread around K is a binary contract on that event, and its price/width ratio
-is the market's probability quote. Pythia computes that quote across strikes,
+is the market's probability quote. Honest Odds computes that quote across strikes,
 asks Claude for an independent, calibrated estimate of the same probabilities,
 and trades the divergence with defined-risk debit spreads — every decision
 gated, journaled, and narrated.
@@ -131,7 +133,7 @@ below is for reproducing the week.
 | Dedicated competition paper account, $100k start | `scripts/setup_account_check.py` verifies both |
 | Alpaca Trading API | `pythia/execution.py` — MLEG limit orders via `alpaca-py` |
 | MCP server or CLI | `mcp/README.md` — Claude supervises the same account via Alpaca's MCP server |
-| Options in every strategy | The only instruments Pythia trades are option spreads/longs |
+| Options in every strategy | The only instruments Honest Odds trades are option spreads/longs |
 | One-page write-up (AI logic, risk gates, infra) | `WRITEUP.md` — fill in results and submit |
 
 ## Risk gates (the part judges should poke)
@@ -166,7 +168,7 @@ and says so out loud.
   convexity mode, wide caps). Run it only 9:30-10:45 ET on Sep 4, then
   `python run.py --flatten` and `python scripts/snapshot.py` for final numbers.
 - Everything the video needs is on screen: the dashboard's divergence ledger
-  shows gold (Pythia) vs slate (market) per decision, gates light up
+  shows gold (Honest Odds) vs slate (market) per decision, gates light up
   red when they block, and the fund letter narrates the day.
 
 ## Repo map
@@ -197,6 +199,6 @@ THEORY.md               the stochastic-calculus grounding, module-mapped
 RESEARCH.md             related work (2024-2026) and pre-registered next experiments
 ```
 
-*Pythia is a hackathon competition system for simulated funds. It is not
+*Honest Odds is a hackathon competition system for simulated funds. It is not
 investment advice, and its contest risk profile is tuned for a paper
 leaderboard, not for real capital.*

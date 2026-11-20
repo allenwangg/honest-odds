@@ -1,4 +1,4 @@
-# THEORY — the mathematics under Pythia, mapped to the code that uses it
+# THEORY — the mathematics under Honest Odds, mapped to the code that uses it
 
 *One page for judges who want to know whether the math is decoration or
 load-bearing. Every claim below names the module that implements it.*
@@ -37,7 +37,7 @@ theorem says the change of measure shifts *drift only*: W_t^Q = W_t^P + λt,
 λ = (μ−r)/σ. Over T = 3/252 the drift term (μ−r)T ≈ 0.06% is an order of
 magnitude smaller than the diffusion term σ√T ≈ 2%, so for short-dated
 contracts **Q ≈ P up to the variance risk premium** — implied vol's
-systematic overstatement of realized vol, which fattens Q's tails. Pythia's
+systematic overstatement of realized vol, which fattens Q's tails. Honest Odds's
 edge is therefore a spread between two probability measures:
 
     edge(K) = P̂_claude(S_T > K) − Q_chain(S_T > K)
@@ -54,7 +54,7 @@ A K₁/K₂ debit spread's payoff, divided by its width, converges to the
 digital's as K₂→K₁ — so `structures.py` buys the tightest listed bracket
 around the event strike, and gate **G8** checks that debit/width (the
 market's probability, paid at the actual fill) is still below P̂. Sizing is
-fractional Kelly: full Kelly for a binary is f* = edge/odds; Pythia uses
+fractional Kelly: full Kelly for a binary is f* = edge/odds; Honest Odds uses
 f ∝ edge × confidence, hard-capped — fractional Kelly under model
 uncertainty, which maximizes long-run log-growth subject to not being wrong
 about being right (**`structures.py`**, caps in **`risk.py`**).
@@ -63,7 +63,7 @@ about being right (**`structures.py`**, caps in **`risk.py`**).
 
 The Brier score is a strictly proper scoring rule: it is uniquely minimized
 by reporting true beliefs, so it cannot be gamed by hedging the forecast.
-**`scripts/calibrate.py`** scores every resolved journal forecast — Pythia's
+**`scripts/calibrate.py`** scores every resolved journal forecast — Honest Odds's
 P̂ and the market's Q against realized outcomes — and grid-searches the
 shrinkage λ* minimizing Brier for the blended forecast Q + λ(P̂ − Q). That λ*
 goes back into config as `edge_shrinkage`: the loop that keeps the agent's

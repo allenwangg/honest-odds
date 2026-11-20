@@ -1,4 +1,4 @@
-# Pythia — the options chain is a prediction market
+# Honest Odds — the options chain is a prediction market
 
 *Alpaca AI Trading Agents Hackathon · Options Alpha Agents · one-page write-up*
 
@@ -8,7 +8,7 @@ debit spread around K is that digital contract, tradable. So the options chain
 is a prediction market quoting probabilities all day. For 0–7 DTE the Girsanov
 drift correction is negligible (≈0.06% vs a 2% diffusion scale), so Q differs
 from the physical measure mainly through the variance risk premium — exactly
-the correction channel Pythia's analyst is fed. The strategy is probability
+the correction channel Honest Odds's analyst is fed. The strategy is probability
 arbitrage: trade the spread between the market's measure and the model's, in
 defined-risk size, and grade every call in public. (Full math → THEORY.md.)
 
@@ -84,25 +84,25 @@ zero manual entries.
   puts +101% at 11:28am on Sep 1, with no human involved.
 - **Forecast quality, scored properly.** 37 resolved forecasts graded against official
   closes with the Brier rule, benchmarked against the same option chain they were read
-  from: **market 0.0566, Pythia 0.0159 — 72% lower.** *(Nov 2026 correction: four of these
-  were stale 0DTE quotes Pythia flagged at the time; without them it is market 0.0317,
-  Pythia 0.0177, 44% lower over 33, and the coin-flip claim below does not hold. See
+  from: **market 0.0566, Honest Odds 0.0159 — 72% lower.** *(Nov 2026 correction: four of these
+  were stale 0DTE quotes Honest Odds flagged at the time; without them it is market 0.0317,
+  Honest Odds 0.0177, 44% lower over 33, and the coin-flip claim below does not hold. See
   CALIBRATION.md § Robustness.)* On the seven near-coin-flip
-  questions (market 40–60%) the market went 3-for-7 and Pythia went 7-for-7:
+  questions (market 40–60%) the market went 3-for-7 and Honest Odds went 7-for-7:
   0.2319 vs 0.0395, 83% lower. Optimal shrinkage toward the market prior grid-searched
   to **λ = 0.00**. Full table, method and caveats in **CALIBRATION.md**.
 - **The finding I did not want.** Splitting those forecasts by direction of disagreement:
-  where Pythia was more bullish than the chain it scored 96% better; where it was more
+  where Honest Odds was more bullish than the chain it scored 96% better; where it was more
   *bearish* it scored 11% **worse**. Buying a put spread is a bearish disagreement, so
   the trade filter fires precisely where the model has no measured edge — and it did.
-  Pythia scored worse than the market on three forecasts all week and **two of them were
+  Honest Odds scored worse than the market on three forecasts all week and **two of them were
   trades** (an earlier version said four and three; the journal shows three and two). n=16 on the bearish side over four sessions is not yet a fact, which is why
   it is logged rather than patched into the config; `scripts/calibrate.py` is built to
   settle it with more data.
 - **The graded call, in full.** On Sep 2 the chain implied 60% that QQQ finishes above
-  708 on Sep 3; Pythia said 52% and bought the 708/704 put debit spread, 22 contracts,
+  708 on Sep 3; Honest Odds said 52% and bought the 708/704 put debit spread, 22 contracts,
   filled at 1.27 for a maximum loss of $2,794 known before the order left. QQQ closed
-  Sep 3 at **717.67** — the market was right and Pythia was wrong. Realised loss $2,750,
+  Sep 3 at **717.67** — the market was right and Honest Odds was wrong. Realised loss $2,750,
   inside the cap the gate printed, and it is in the journal with the reasoning that
   produced it. A forecaster who only publishes the calls that land is not a forecaster.
 - **Operator interventions, disclosed**: none on entries; risk-reducing closes of orphaned

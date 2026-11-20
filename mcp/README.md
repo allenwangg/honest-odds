@@ -1,6 +1,6 @@
-# MCP layer — Claude as Pythia's supervisor
+# MCP layer — Claude as Honest Odds's supervisor
 
-The hackathon requires Alpaca's Trading API **plus** the MCP server or CLI. Pythia's
+The hackathon requires Alpaca's Trading API **plus** the MCP server or CLI. Honest Odds's
 execution path is the Trading API (`alpaca-py`, atomic multi-leg limit orders). The MCP
 server is the *supervision* path: Claude, connected to the same dedicated paper account
 through **Alpaca's official MCP server**, is how the operator interrogates and overrides
