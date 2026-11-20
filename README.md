@@ -37,6 +37,10 @@ Paper trading only: the client is hard-coded `paper=True`.
 
 Reproduce offline, no keys: `python scripts/robustness.py`.
 
+**Where this fits in current research, and the pre-registered next experiments** (leakage-free
+forecasting, benchmark quality, a power analysis, and calibration under user pushback):
+[RESEARCH.md](RESEARCH.md).
+
 ## How it works
 
 Under the risk-neutral measure, `P(S > K at expiry) ≈ −dC/dK`. A tight call
@@ -171,6 +175,7 @@ WRITEUP.md              the one-page submission
 CALIBRATION.md          Brier scores vs the market, plus the robustness check
 scripts/robustness.py   offline re-scoring (data/closes.json holds settlement prices)
 THEORY.md               the stochastic-calculus grounding, module-mapped
+RESEARCH.md             related work (2024-2026) and pre-registered next experiments
 ```
 
 *Pythia is a hackathon competition system for simulated funds. It is not
