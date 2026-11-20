@@ -110,4 +110,4 @@ zero manual entries.
   a 0-DTE put spread into assignment risk overnight. Agent orders carry `pythia-` client
   ids, so the two are separable in the account history.
 
-*Built solo by Allen Wang, with Claude as a coding assistant · github.com/allenwangg/pythia · demo video: [YouTube link]*
+*Built solo by Allen Wang · github.com/allenwangg/pythia · demo video: [YouTube link]*

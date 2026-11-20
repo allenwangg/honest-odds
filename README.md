@@ -10,8 +10,7 @@ probability of the same event, journals both *before* the event resolves, and tr
 when the gap survives eight hard-coded risk gates. Every forecast, including the ones it
 didn't trade, is later graded with the Brier score against the market's own number.
 
-Built solo by Allen Wang, with Claude as a coding assistant, in one week for the Alpaca AI
-Trading Agents Hackathon (Aug 31 – Sep 4, 2026); see [How this was built](#how-this-was-built).
+Built solo in one week for the Alpaca AI Trading Agents Hackathon (Aug 31 – Sep 4, 2026).
 Paper trading only: the client is hard-coded `paper=True`.
 
 ## Result, honestly stated
@@ -206,13 +205,3 @@ RESEARCH.md             related work (2024-2026) and pre-registered next experim
 *Honest Odds is a hackathon competition system for simulated funds. It is not
 investment advice, and its contest risk profile is tuned for a paper
 leaderboard, not for real capital.*
-
-## How this was built
-
-Allen Wang designed, built and ran this project alone. Claude has two roles here. It is part
-of the system: the agent asks Claude for each probability. It was also a coding assistant:
-the original hackathon code was written with AI coding help, and the November 2026 re-audit
-(the robustness check, `pythia/scoring.py`, `RESEARCH.md` and this README) was written with
-Claude Code. Those commits carry a Claude co-author trailer. The research questions, the
-choice of benchmark, the decision to publish the correction, and responsibility for every
-number in this repo are Allen's.
