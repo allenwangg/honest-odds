@@ -1,7 +1,7 @@
-# Research context — where Pythia sits, and what it would take to make it a result
+# Research context — where Honest Odds sits, and what it would take to make it a result
 
 *Written Nov 2026. Every paper below was read at the linked page; numbers are quoted from
-those pages. Pythia's own numbers come from `scripts/robustness.py`.*
+those pages. Honest Odds's own numbers come from `scripts/robustness.py`.*
 
 ## The question
 
@@ -33,7 +33,7 @@ the user appears to want.
 answer; (2) weak or stale benchmarks, because a base rate or a thin market is easy to beat;
 (3) sample size, because forecasts that resolve together are not independent.
 
-## What Pythia adds
+## What Honest Odds adds
 
 1. **Leakage-free by construction.** Every probability was written to
    `journal/decisions.jsonl` with a timestamp before the event resolved, about closes
@@ -47,7 +47,7 @@ answer; (2) weak or stale benchmarks, because a base rate or a thin market is ea
    rationale before the close, which is itself a small honesty result: it said it was
    disagreeing with bad data, not claiming to out-forecast the market. This is problem (2)
    above in a measurable form, and it is why CALIBRATION.md reports both numbers.
-4. **A directional asymmetry worth testing.** Pythia scored 90% better than the chain when
+4. **A directional asymmetry worth testing.** Honest Odds scored 90% better than the chain when
    more bullish and 11% worse when more bearish (16 forecasts each side, one up week). If
    it holds, it is a systematic bias, and the trading filter was pointed at it.
 
@@ -95,8 +95,8 @@ ask (the price you could actually trade), not the mid.
 in stated probability and the change in Brier. A model that moves toward pushback without
 new information, and scores worse for it, is showing sycophancy where a proper scoring rule
 and ground truth can measure it (the Sharma et al. line of work). This is being run as a
-separate pre-registered study on ForecastBench questions; Pythia's contribution would be
+separate pre-registered study on ForecastBench questions; Honest Odds's contribution would be
 the same test on live market questions that resolve within a day.
 
-**E4. Test the bearish asymmetry out of sample.** Fix the hypothesis now ("Pythia's bearish
+**E4. Test the bearish asymmetry out of sample.** Fix the hypothesis now ("Honest Odds's bearish
 disagreements score worse than the chain"), then test it on E1's data only.

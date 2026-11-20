@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pythia — ops console</title>
+<title>Honest Odds — ops console</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -135,11 +135,11 @@
     </div>
 
     <div class="panel">
-      <div class="eyebrow">Divergence ledger · <em>gold</em> is Pythia, slate is the market</div>
+      <div class="eyebrow">Divergence ledger · <em>gold</em> is Honest Odds, slate is the market</div>
       <div class="legend"><span><span class="d"></span>market-implied P(above)</span>
-        <span><span class="o"></span>Pythia-inferred P(above)</span></div>
+        <span><span class="o"></span>Honest Odds-inferred P(above)</span></div>
       <div id="ledger"><div class="empty">No decisions yet. Run
-        <b>python run.py --once --dry-run</b> to see Pythia think.</div></div>
+        <b>python run.py --once --dry-run</b> to see Honest Odds think.</div></div>
     </div>
   </div>
 
@@ -155,7 +155,7 @@
     </div>
   </div>
 
-  <footer>Pythia ops console · paper trading only · refreshes every 15s</footer>
+  <footer>Honest Odds ops console · paper trading only · refreshes every 15s</footer>
 </div>
 
 <script>
@@ -189,7 +189,7 @@ function rail(d){
     ${[0,25,50,75,100].map(t=>`<div class="tick" style="left:${t}%"></div>`).join('')}
     <div class="edgebar" style="left:${L}%;width:${W}%"></div>
     <div class="mk" style="left:${imp}%" title="market ${imp.toFixed(1)}%"></div>
-    <div class="py" style="left:${inf}%" title="Pythia ${inf.toFixed(1)}%"></div></div>
+    <div class="py" style="left:${inf}%" title="Honest Odds ${inf.toFixed(1)}%"></div></div>
     <div class="raillabels"><span>0</span><span>P( ${d.symbol} > ${d.strike} at ${d.expiry} )</span><span>100</span></div>`;
 }
 
@@ -225,7 +225,7 @@ function render(s){
         <span class="meta" style="margin-left:auto">edge ${edge>0?'+':''}${edge}pts · conf ${(d.confidence*100).toFixed(0)}%</span></div>
       ${rail(d)}
       <div class="why">${d.rationale||''}${d.reason?' — '+d.reason:''}</div></div>`;
-  }).join(''):'<div class="empty">No decisions yet. Run <b>python run.py --once --dry-run</b> to see Pythia think.</div>';
+  }).join(''):'<div class="empty">No decisions yet. Run <b>python run.py --once --dry-run</b> to see Honest Odds think.</div>';
 
   const pos=(s.positions||[]);
   $('positions').innerHTML=pos.length?`<table><tr><th>contract</th><th class="n">qty</th>
