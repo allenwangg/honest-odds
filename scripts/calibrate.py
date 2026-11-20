@@ -23,16 +23,20 @@ if not trades.exists():
 
 rows = [json.loads(l) for l in trades.read_text().splitlines() if l.strip()]
 today = dt.date.today()
-# unique forecasts on resolved expiries
-seen, forecasts = set(), []
+# unique forecasts on resolved expiries: the LAST forecast per (symbol, expiry,
+# strike), which is what CALIBRATION.md reports. (Keeping the first instead
+# gives market 0.0626 vs Pythia 0.0161 on the same 37 events.)
+latest = {}
 for r in rows:
     if not all(k in r for k in ("symbol", "expiry", "strike", "inferred_p", "implied_p")):
         continue
+    if r["symbol"] not in ("SPY", "QQQ"):   # CALIBRATION.md scores the index ETFs only
+        continue                            # (drops one TSLA forecast and two test rows)
     expiry = dt.date.fromisoformat(r["expiry"])
-    key = (r["symbol"], r["expiry"], r["strike"])
-    if expiry >= today or key in seen:
+    if expiry >= today:
         continue
-    seen.add(key); forecasts.append((r, expiry))
+    latest[(r["symbol"], r["expiry"], r["strike"])] = (r, expiry)
+forecasts = list(latest.values())
 if not forecasts:
     sys.exit("no resolved events yet — check back after an expiry passes")
 

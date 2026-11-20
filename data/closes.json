@@ -1,0 +1,15 @@
+{
+  "_note": "Settlement data for scripts/robustness.py. 'close' = official daily close of the ETF. 'bounds' = the close is not recorded here, only an interval it is known to lie in; the script checks that every scored strike lies outside it, so the outcome is unambiguous. Replace bounds with closes by running scripts/calibrate.py with Alpaca keys.",
+  "QQQ": {
+    "2026-08-31": {"close": 716.76, "source": "financialcontent.com QQQ historical"},
+    "2026-09-01": {"close": 707.64, "source": "financialcontent.com QQQ historical"},
+    "2026-09-02": {"close": 709.24, "source": "financialcontent.com QQQ historical; matches WRITEUP.md"},
+    "2026-09-03": {"close": 717.67, "source": "financialcontent.com QQQ historical; matches WRITEUP.md"}
+  },
+  "SPY": {
+    "2026-08-31": {"bounds": [757.0, 800.0], "source": "spot 764.96 at 10:26 ET (journal); QQQ closed +0.5% from its same-minute spot. Scored strikes: 746, 757."},
+    "2026-09-01": {"close": 761.78, "source": "CALIBRATION.md trade table (Alpaca bars)"},
+    "2026-09-02": {"bounds": [755.0, 775.0], "source": "S&P 500 closed 7,666.60, +0.46% (tapeboard.com recap) => SPY ~765. Scored strikes: 744-748, 777-780."},
+    "2026-09-03": {"bounds": [750.0, 800.0], "source": "QQQ +1.2% on the day; SPY would need a >2% fall from ~765. Scored strike: 750."}
+  }
+}
