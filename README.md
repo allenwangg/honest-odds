@@ -10,10 +10,14 @@ probability of the same event, journals both *before* the event resolves, and tr
 when the gap survives eight hard-coded risk gates. Every forecast, including the ones it
 didn't trade, is later graded with the Brier score against the market's own number.
 
-Built solo in one week for the Alpaca AI Trading Agents Hackathon (Aug 31 – Sep 4, 2026).
+Built solo by Allen Wang, with Claude as a coding assistant, in one week for the Alpaca AI
+Trading Agents Hackathon (Aug 31 – Sep 4, 2026); see [How this was built](#how-this-was-built).
 Paper trading only: the client is hard-coded `paper=True`.
 
 ## Result, honestly stated
+
+**The edge is not established.** One week of forecasts does not survive the robustness
+checks below; what the repo shows is a method for finding that out.
 
 | 33 resolved forecasts, SPY + QQQ, Aug 31 – Sep 3 2026 | Brier ↓ |
 |---|---|
@@ -33,7 +37,7 @@ Paper trading only: the client is hard-coded `paper=True`.
   model's weak side. Two of its three worse-than-market forecasts were trades.
 - **Limits:** one up-trending week; strikes sharing a close aren't independent, so the
   effective sample is about 6–8 symbol×day clusters; a cluster bootstrap interval for the
-  Brier difference includes zero. This is evidence worth testing, not an established edge.
+  Brier difference includes zero, and one symbol-day carries most of the remaining gap.
 - Paper account: +6.8% on the week under a deliberately aggressive contest risk profile.
   One week of P&L says little; the Brier scores are the measurement that matters.
 
@@ -202,3 +206,13 @@ RESEARCH.md             related work (2024-2026) and pre-registered next experim
 *Honest Odds is a hackathon competition system for simulated funds. It is not
 investment advice, and its contest risk profile is tuned for a paper
 leaderboard, not for real capital.*
+
+## How this was built
+
+Allen Wang designed, built and ran this project alone. Claude has two roles here. It is part
+of the system: the agent asks Claude for each probability. It was also a coding assistant:
+the original hackathon code was written with AI coding help, and the November 2026 re-audit
+(the robustness check, `pythia/scoring.py`, `RESEARCH.md` and this README) was written with
+Claude Code. Those commits carry a Claude co-author trailer. The research questions, the
+choice of benchmark, the decision to publish the correction, and responsibility for every
+number in this repo are Allen's.
