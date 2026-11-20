@@ -84,7 +84,10 @@ zero manual entries.
   puts +101% at 11:28am on Sep 1, with no human involved.
 - **Forecast quality, scored properly.** 37 resolved forecasts graded against official
   closes with the Brier rule, benchmarked against the same option chain they were read
-  from: **market 0.0566, Pythia 0.0159 — 72% lower.** On the seven near-coin-flip
+  from: **market 0.0566, Pythia 0.0159 — 72% lower.** *(Nov 2026 correction: four of these
+  were stale 0DTE quotes Pythia flagged at the time; without them it is market 0.0317,
+  Pythia 0.0177, 44% lower over 33, and the coin-flip claim below does not hold. See
+  CALIBRATION.md § Robustness.)* On the seven near-coin-flip
   questions (market 40–60%) the market went 3-for-7 and Pythia went 7-for-7:
   0.2319 vs 0.0395, 83% lower. Optimal shrinkage toward the market prior grid-searched
   to **λ = 0.00**. Full table, method and caveats in **CALIBRATION.md**.
@@ -92,8 +95,8 @@ zero manual entries.
   where Pythia was more bullish than the chain it scored 96% better; where it was more
   *bearish* it scored 11% **worse**. Buying a put spread is a bearish disagreement, so
   the trade filter fires precisely where the model has no measured edge — and it did.
-  Pythia produced four losing forecasts all week and **three of them are the three it
-  traded.** n=16 on the bearish side over four sessions is not yet a fact, which is why
+  Pythia scored worse than the market on three forecasts all week and **two of them were
+  trades** (an earlier version said four and three; the journal shows three and two). n=16 on the bearish side over four sessions is not yet a fact, which is why
   it is logged rather than patched into the config; `scripts/calibrate.py` is built to
   settle it with more data.
 - **The graded call, in full.** On Sep 2 the chain implied 60% that QQQ finishes above

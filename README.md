@@ -1,6 +1,65 @@
 # PYTHIA
 
-**An agent that reads the options chain like a prediction market.**
+**A Claude forecasting agent scored against the options market with a proper scoring rule.**
+
+Pythia reads the market's probability that SPY or QQQ closes above a strike straight off the
+option chain (Breeden–Litzenberger, `P(S > K) ≈ −∂C/∂K`), asks Claude for its own calibrated
+probability of the same event, journals both *before* the event resolves, and trades only
+when the gap survives eight hard-coded risk gates. Every forecast, including the ones it
+didn't trade, is later graded with the Brier score against the market's own number.
+
+Built solo in one week for the Alpaca AI Trading Agents Hackathon (Aug 31 – Sep 4, 2026).
+Paper trading only: the client is hard-coded `paper=True`.
+
+## Result, honestly stated
+
+| 33 resolved forecasts, SPY + QQQ, Aug 31 – Sep 3 2026 | Brier ↓ |
+|---|---|
+| Market (option-chain mid) | 0.0317 |
+| **Pythia (Claude)** | **0.0177** (44% lower) |
+
+- **The published headline was 0.0159 vs 0.0566 (72% lower) on 37 forecasts.** Four of those
+  were stale 0DTE quotes (~0.49 on strikes 1–2.5% in the money) that Pythia flagged as stale
+  at the time. Counting a flagged data error as a forecasting win overstates the edge, so the
+  number above excludes them. Both versions, and the script that produces them, are in
+  [CALIBRATION.md](CALIBRATION.md#robustness-check-what-survives-removing-stale-quotes).
+- **Where the edge comes from:** mostly far-from-the-money strikes, where chain mid-prices
+  are noisy and Pythia correctly pushed them toward 0 or 1. On the 6 interior questions
+  (market 15–85%) the gap is 29%.
+- **The finding I'd act on:** when Pythia was more *bearish* than the chain it scored 11%
+  *worse* (n = 16), and a put spread is a bearish bet, so the trade filter fired on the
+  model's weak side. Two of its three worse-than-market forecasts were trades.
+- **Limits:** one up-trending week; strikes sharing a close aren't independent, so the
+  effective sample is about 6–8 symbol×day clusters; a cluster bootstrap interval for the
+  Brier difference includes zero. This is evidence worth testing, not an established edge.
+- Paper account: +6.8% on the week under a deliberately aggressive contest risk profile.
+  One week of P&L says little; the Brier scores are the measurement that matters.
+
+Reproduce offline, no keys: `python scripts/robustness.py`.
+
+## Use it on your own forecasts
+
+The scoring checks are a standalone module with no dependencies. Give it any log of resolved
+binary forecasts (yours, a model's, a benchmark run) next to a market or baseline price:
+
+```bash
+# one JSON object per line: id, group (the unit of independence), p_model, p_market, outcome
+python -m pythia.scoring my_forecasts.jsonl
+python -m pythia.scoring my_forecasts.jsonl --exclude-flag stale_quote   # pre-registered exclusions
+python tests/test_scoring.py                                             # offline self-check
+```
+
+It reports Brier for both sides, **which rows and groups carry the result** (leave-one-out),
+a cluster-bootstrap interval, **how many groups you'd need** to settle it, and a calibration
+table. Run on Pythia's own log (`data/forecasts_scored.jsonl`), the leave-one-out check puts
+the four stale quotes at the top of the list without being told about them. That is the
+check that should have run before the 72% was published.
+
+**Where this fits in current research, and the pre-registered next experiments** (leakage-free
+forecasting, benchmark quality, a power analysis, and calibration under user pushback):
+[RESEARCH.md](RESEARCH.md).
+
+## How it works
 
 Under the risk-neutral measure, `P(S > K at expiry) ≈ −dC/dK`. A tight call
 spread around K is a binary contract on that event, and its price/width ratio
@@ -13,10 +72,6 @@ The math is 1970s-vintage on purpose — Breeden–Litzenberger, Girsanov,
 proper scoring rules — with every identity mapped to the module that
 implements it in **THEORY.md**. The novelty is the P̂ estimator and the
 verification loop, not the calculus.
-
-Built solo for the **Alpaca AI Trading Agents Hackathon** (Options Alpha Agents).
-Paper trading only, by construction: the trading client is hard-coded
-`paper=True` and there is no live code path.
 
 ```
  chain ──► implied curve ──► Claude assessment ──► divergence ──► structure
@@ -65,7 +120,8 @@ python run.py --letter        # Claude writes today's fund letter from the journ
 `pip install -r requirements.txt && python run.py --selftest` — the entire
 pipeline runs offline, no keys, and prints a fully gated trade. Then:
 `WRITEUP.md` for the numbers, `journal/letters/` for the nightly fund
-letters, `scripts/calibrate.py` output for the Brier scores. Everything else
+letters, `scripts/calibrate.py` output for the Brier scores and
+`scripts/robustness.py` for how much of them survives removing stale quotes. Everything else
 below is for reproducing the week.
 
 ## Hackathon compliance
@@ -134,7 +190,11 @@ tests/                  offline: curve math vs Black-Scholes, all 8 gates
 notes/macro.md          human-maintained catalyst calendar → analyst prompt
 mcp/README.md           Claude-over-MCP supervision setup
 WRITEUP.md              the one-page submission
+CALIBRATION.md          Brier scores vs the market, plus the robustness check
+scripts/robustness.py   offline re-scoring (data/closes.json holds settlement prices)
+pythia/scoring.py       reusable scoring checks for any forecast log (python -m pythia.scoring)
 THEORY.md               the stochastic-calculus grounding, module-mapped
+RESEARCH.md             related work (2024-2026) and pre-registered next experiments
 ```
 
 *Pythia is a hackathon competition system for simulated funds. It is not
