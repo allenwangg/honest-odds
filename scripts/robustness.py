@@ -81,3 +81,13 @@ for tag, S in (("as published", F), ("clean", clean)):
     print(f"\nClusters ({tag}): {len(C)}; Pythia lower Brier in {wins}. "
           f"Cluster-bootstrap 95% CI for Brier(Pythia) - Brier(market): "
           f"[{diffs[500]:+.4f}, {diffs[19499]:+.4f}]; share of resamples >= 0: {sum(d >= 0 for d in diffs) / len(diffs):.1%}")
+
+# Export in the generic format pythia/scoring.py reads, so the same checks run on
+# this log or any other:  python -m pythia.scoring data/forecasts_scored.jsonl
+out = ROOT / "data" / "forecasts_scored.jsonl"
+with out.open("w") as f:
+    for x in F:
+        f.write(json.dumps({"id": f"{x['sym']}>{x['k']:g}@{x['exp']}", "group": f"{x['sym']} {x['exp']}",
+                            "p_model": x["p"], "p_market": x["m"], "outcome": int(x["o"]),
+                            "stale_quote": stale(x), "action": x["action"]}) + "\n")
+print(f"\nwrote {out.relative_to(ROOT)} ({len(F)} rows)")

@@ -54,9 +54,27 @@ answer; (2) weak or stale benchmarks, because a base rate or a thin market is ea
 ## What it does not show yet
 
 On the 6 independent symbol-day clusters left after cleaning, the unweighted mean
-per-cluster Brier difference is −0.0025 with a standard deviation of 0.044. Most of the
-pooled gap comes from far-from-the-money strikes, where chain mid-prices are noisy. The
-current evidence is consistent with a modest edge and with none.
+per-cluster Brier difference is −0.0025 with a standard deviation of 0.044. One cluster
+(QQQ, Sep 1) carries most of the pooled gap: dropping it moves the difference from −0.0140
+to −0.0025. Most of the rest comes from far-from-the-money strikes, where chain mid-prices
+are noisy. The current evidence is consistent with a modest edge and with none.
+(`python -m pythia.scoring data/forecasts_scored.jsonl --exclude-flag stale_quote`.)
+
+## Why this matters beyond trading
+
+The tool and the failure it caught are about evaluation, not markets:
+
+- **Eval hygiene.** A model scored against a broken benchmark looked 72% better than it was,
+  and the model itself had flagged the bad data. Any eval that compares a model to a
+  reference (a market, a crowd, a grader, a base rate) can fail this way. `pythia/scoring.py`
+  is a small, dependency-free check for it: leave-one-out influence, a cluster bootstrap
+  over the real unit of independence, and a power estimate, on any forecast log.
+- **Calibration as honesty with ground truth.** A proper scoring rule is minimized only by
+  reporting what you believe, and these questions resolve within a day, after the
+  forecast is logged. That makes live forecasting a measurement of whether a model's stated
+  confidence means what it says, with no answer in the training data to leak.
+- **Measured, not claimed.** The edge this week does not survive the checks. The reusable
+  part is the method that showed it.
 
 ## Pre-registered next experiments
 
@@ -72,12 +90,13 @@ before outcomes are known: drop strikes whose implied curve violates monotonicit
 bid–ask width exceeds a set fraction of the price. Score wing strikes against the bid and
 ask (the price you could actually trade), not the mid.
 
-**E3. Calibration under pushback.** For each logged forecast, re-ask the same question with
-a user message that pushes back ("the options market says 60%, are you sure?") and with a
-neutral control. Measure the shift in stated probability and the change in Brier. A model
-that moves toward the pushback without new information, and gets worse for it, is showing
-sycophancy in a setting with a proper scoring rule and a ground truth. This connects the
-Pythia data directly to the Sharma et al. line of work.
+**E3. Calibration under pushback.** Re-ask a forecast with a user message that pushes back
+("the market says 60%, are you sure?") and with a neutral control, then measure the shift
+in stated probability and the change in Brier. A model that moves toward pushback without
+new information, and scores worse for it, is showing sycophancy where a proper scoring rule
+and ground truth can measure it (the Sharma et al. line of work). This is being run as a
+separate pre-registered study on ForecastBench questions; Pythia's contribution would be
+the same test on live market questions that resolve within a day.
 
 **E4. Test the bearish asymmetry out of sample.** Fix the hypothesis now ("Pythia's bearish
 disagreements score worse than the chain"), then test it on E1's data only.

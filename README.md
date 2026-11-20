@@ -37,6 +37,24 @@ Paper trading only: the client is hard-coded `paper=True`.
 
 Reproduce offline, no keys: `python scripts/robustness.py`.
 
+## Use it on your own forecasts
+
+The scoring checks are a standalone module with no dependencies. Give it any log of resolved
+binary forecasts (yours, a model's, a benchmark run) next to a market or baseline price:
+
+```bash
+# one JSON object per line: id, group (the unit of independence), p_model, p_market, outcome
+python -m pythia.scoring my_forecasts.jsonl
+python -m pythia.scoring my_forecasts.jsonl --exclude-flag stale_quote   # pre-registered exclusions
+python tests/test_scoring.py                                             # offline self-check
+```
+
+It reports Brier for both sides, **which rows and groups carry the result** (leave-one-out),
+a cluster-bootstrap interval, **how many groups you'd need** to settle it, and a calibration
+table. Run on Pythia's own log (`data/forecasts_scored.jsonl`), the leave-one-out check puts
+the four stale quotes at the top of the list without being told about them. That is the
+check that should have run before the 72% was published.
+
 **Where this fits in current research, and the pre-registered next experiments** (leakage-free
 forecasting, benchmark quality, a power analysis, and calibration under user pushback):
 [RESEARCH.md](RESEARCH.md).
@@ -174,6 +192,7 @@ mcp/README.md           Claude-over-MCP supervision setup
 WRITEUP.md              the one-page submission
 CALIBRATION.md          Brier scores vs the market, plus the robustness check
 scripts/robustness.py   offline re-scoring (data/closes.json holds settlement prices)
+pythia/scoring.py       reusable scoring checks for any forecast log (python -m pythia.scoring)
 THEORY.md               the stochastic-calculus grounding, module-mapped
 RESEARCH.md             related work (2024-2026) and pre-registered next experiments
 ```
