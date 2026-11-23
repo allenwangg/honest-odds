@@ -16,25 +16,30 @@ video assets are archived in [archive/hackathon/](archive/hackathon/).
 
 ## Result, honestly stated
 
-| 33 resolved forecasts, SPY + QQQ, Aug 31 – Sep 3 2026 | Brier ↓ |
+| 33 resolved forecasts, SPY + QQQ, Aug 31 – Sep 3 2026, 6 independent groups | Brier ↓ |
 |---|---|
 | Market (option-chain mid) | 0.0317 |
-| **Honest Odds (Claude)** | **0.0177** (44% lower) |
+| Honest Odds (Claude) | 0.0177 |
+| Difference, with 95% cluster-bootstrap interval | −0.0140 [−0.0409, +0.0073] |
 
+- **No clear difference yet.** Honest Odds scored lower, but strikes that share one close are
+  not independent, so the unit is the symbol×day group, and with 6 groups the interval
+  includes zero (11% of resamples at or above it). One group, QQQ on Sep 1, carries most of
+  the gap: dropping it changes the difference by +0.0115 of the −0.0140. Detecting a true
+  improvement of 0.02 per group at 80% power would take about 38 groups; this week had 6.
 - **The published headline was 0.0159 vs 0.0566 (72% lower) on 37 forecasts.** Four of those
   were stale 0DTE quotes (~0.49 on strikes 1–2.5% in the money) that Honest Odds flagged as stale
-  at the time. Counting a flagged data error as a forecasting win overstates the edge, so the
-  number above excludes them. Both versions, and the script that produces them, are in
+  at the time. Counting a flagged data error as a forecasting win overstates the result, so the
+  numbers above exclude them. Both versions, and the script that produces them, are in
   [CALIBRATION.md](CALIBRATION.md#robustness-check-what-survives-removing-stale-quotes).
-- **Where the edge comes from:** mostly far-from-the-money strikes, where chain mid-prices
+- **Where the gap comes from:** mostly far-from-the-money strikes, where chain mid-prices
   are noisy and Honest Odds correctly pushed them toward 0 or 1. On the 6 interior questions
   (market 15–85%) the gap is 29%.
 - **The finding I'd act on:** when Honest Odds was more *bearish* than the chain it scored 11%
   *worse* (n = 16), and a put spread is a bearish bet, so the trade filter fired on the
   model's weak side. Two of its three worse-than-market forecasts were trades.
-- **Limits:** one up-trending week; strikes sharing a close aren't independent, so the
-  effective sample is about 6–8 symbol×day clusters; a cluster bootstrap interval for the
-  Brier difference includes zero. This is evidence worth testing, not an established edge.
+- **Limits:** one up-trending week, two symbols, paper trading. This is evidence worth
+  testing, not an established edge.
 - Paper account: +6.8% on the week under a deliberately aggressive contest risk profile.
   One week of P&L says little; the Brier scores are the measurement that matters.
 
