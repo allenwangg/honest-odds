@@ -10,9 +10,13 @@ from __future__ import annotations
 import datetime as dt
 import json
 import math
+import shutil
+import tempfile
 import types
+from pathlib import Path
 
-from .config import ROOT, Config
+from . import journal as _journal, risk as _risk, state as _state
+from .config import ROOT, Config  # noqa: F401  (ROOT kept for callers that import it)
 from .execution import Executor  # noqa: F401  (imported to prove it loads)
 from .journal import Journal
 from .market_data import ExpirySlice, OptionQuoteRow
@@ -98,7 +102,43 @@ class _FakeAnalyst:
                            for e in events]}
 
 
+def _sandbox_paths() -> tuple[dict, "Path"]:
+    """Point every file the cycle writes at a throwaway folder.
+
+    The self-test used to write into the live journal/ and dashboard/ files,
+    which polluted the record and once halted the live loop through
+    journal/day_state.json. Returns the original paths so they can be restored.
+    """
+    tmp = Path(tempfile.mkdtemp(prefix="pythia-selftest-"))
+    (tmp / "journal").mkdir()
+    saved = {
+        (_journal, "JOURNAL_DIR"): _journal.JOURNAL_DIR,
+        (_journal, "TRADES"): _journal.TRADES,
+        (_journal, "LETTERS"): _journal.LETTERS,
+        (_risk, "DAY_STATE"): _risk.DAY_STATE,
+        (_state, "STATE_PATH"): _state.STATE_PATH,
+        (_state, "EQUITY_LOG"): _state.EQUITY_LOG,
+    }
+    _journal.JOURNAL_DIR = tmp / "journal"
+    _journal.TRADES = tmp / "journal" / "decisions.jsonl"
+    _journal.LETTERS = tmp / "journal" / "letters"
+    _risk.DAY_STATE = tmp / "journal" / "day_state.json"
+    _state.STATE_PATH = tmp / "dashboard" / "state.json"
+    _state.EQUITY_LOG = tmp / "journal" / "equity.jsonl"
+    return saved, tmp
+
+
 def run_selftest(cfg: Config) -> int:
+    saved, tmp = _sandbox_paths()
+    try:
+        return _run_selftest(cfg, tmp)
+    finally:
+        for (module, name), value in saved.items():
+            setattr(module, name, value)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def _run_selftest(cfg: Config, tmp: "Path") -> int:
     cfg.universe = ["SELF"]
     bot = Pythia.__new__(Pythia)
     bot.cfg, bot.dry_run = cfg, True
@@ -108,7 +148,7 @@ def run_selftest(cfg: Config) -> int:
 
     bot.cycle()
 
-    state_path = ROOT / "dashboard" / "state.json"
+    state_path = _state.STATE_PATH
     assert state_path.exists(), "state.json was not written"
     state = json.loads(state_path.read_text())
     decisions = state.get("decisions", [])
@@ -123,5 +163,5 @@ def run_selftest(cfg: Config) -> int:
     d = dry[0]
     print(f"  {d['symbol']} {d['structure']} x{d['contracts']} @ {d['limit_debit']}")
     print(f"  implied {d['implied_p']} -> inferred {d['inferred_p']} (edge {d['edge']})")
-    print(f"  all 8 gates green, journal + dashboard state written")
+    print(f"  all 8 gates green, journal + dashboard state written to {tmp} (live files untouched)")
     return 0

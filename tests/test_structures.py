@@ -12,9 +12,12 @@ def row(k, bid, ask, kind):
     occ = f"SPY261204{kind}{int(k*1000):08d}"
     return OptionQuoteRow(symbol=occ, strike=k, kind=kind, bid=bid, ask=ask)
 
+# $1 strikes from 496 to 504. The ladder must reach past 500 + the minimum
+# spread width (min_spread_width_frac = 0.5% of the strike, $2.50 here); the
+# old 498-502 ladder predated that rule, so no spread could be built.
 sl = ExpirySlice(expiry=dt.date.today() + dt.timedelta(days=3))
-for i, k in enumerate([498.0, 499.0, 500.0, 501.0, 502.0]):
-    c = 2.5 - i * 0.45
+for i, k in enumerate([496.0, 497.0, 498.0, 499.0, 500.0, 501.0, 502.0, 503.0, 504.0]):
+    c = 4.3 - i * 0.45
     sl.calls.append(row(k, c - 0.03, c + 0.03, "C"))
     p = 0.7 + i * 0.45
     sl.puts.append(row(k, p - 0.03, p + 0.03, "P"))
@@ -26,7 +29,8 @@ def opp(edge, conf):
 
 cfg = Config()  # convexity off by default
 plan = structures.build(opp(0.12, 0.8), sl, 100_000, cfg)
-assert plan and len(plan.legs) == 2 and "spread" in plan.structure, plan.structure
+assert plan and len(plan.legs) == 2 and "spread" in plan.structure, plan
+assert plan.width >= cfg.min_spread_width_frac * 500.0, plan.width
 print("default: spread", plan.structure, f"x{plan.contracts}")
 
 cfg.convexity_mode = True

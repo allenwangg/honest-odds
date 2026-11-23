@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 """Risk gates must block what they exist to block. No network, no keys."""
-import sys, types, datetime as dt
+import sys, tempfile, types, datetime as dt
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from pythia.config import Config
+import pythia.risk as _risk
+
+# Sandbox the files the gates read and write. Without this the test wrote,
+# then deleted, the live journal/day_state.json, and touched the live KILL
+# file, which halts a running loop.
+_TMP = Path(tempfile.mkdtemp(prefix="pythia-test-risk-"))
+_risk.DAY_STATE = _TMP / "journal" / "day_state.json"
+_risk.KILL_FILE = _TMP / "KILL"
 from pythia.risk import RiskGates, KILL_FILE
 from pythia.structures import TradePlan, Leg
 from pythia.divergence import Opportunity
