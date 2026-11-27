@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate video title cards in Pythia's palette.
 
-    python3 scripts/make_titlecards.py            # all cards -> video/cards/
+    python3 scripts/make_titlecards.py            # all cards -> archive/hackathon/video/cards/
     python3 scripts/make_titlecards.py --vertical # 1080x1920 for Shorts
 
 Cut these in at the start, between sections, and at the end. Three seconds
@@ -58,7 +58,7 @@ def main() -> int:
     ap.add_argument("--vertical", action="store_true", help="1080x1920 for Shorts")
     ap.add_argument("--outdir", default=None)
     a = ap.parse_args()
-    outdir = Path(a.outdir) if a.outdir else Path(__file__).resolve().parent.parent / "video" / "cards"
+    outdir = Path(a.outdir) if a.outdir else Path(__file__).resolve().parent.parent / "archive" / "hackathon" / "video" / "cards"
     outdir.mkdir(parents=True, exist_ok=True)
     for name, big, sub, foot in CARDS:
         print("saved", draw(name, big, sub, foot, a.vertical, outdir))

@@ -1,4 +1,4 @@
-# HONEST ODDS
+# Honest Odds
 
 *Formerly **Pythia**. Code paths keep the old name (`pythia/`, `python -m pythia.scoring`), so nothing breaks.*
 
@@ -11,29 +11,35 @@ when the gap survives eight hard-coded risk gates. Every forecast, including the
 didn't trade, is later graded with the Brier score against the market's own number.
 
 Built solo in one week for the Alpaca AI Trading Agents Hackathon (Aug 31 – Sep 4, 2026).
-Paper trading only: the client is hard-coded `paper=True`.
+Paper trading only: the client is hard-coded `paper=True`. Contest-week runbooks, posts and
+video assets are archived in [archive/hackathon/](archive/hackathon/).
 
 ## Result, honestly stated
 
-| 33 resolved forecasts, SPY + QQQ, Aug 31 – Sep 3 2026 | Brier ↓ |
+| 33 resolved forecasts, SPY + QQQ, Aug 31 – Sep 3 2026, 6 independent groups | Brier ↓ |
 |---|---|
 | Market (option-chain mid) | 0.0317 |
-| **Honest Odds (Claude)** | **0.0177** (44% lower) |
+| Honest Odds (Claude) | 0.0177 |
+| Difference, with 95% cluster-bootstrap interval | −0.0140 [−0.0409, +0.0073] |
 
+- **No clear difference yet.** Honest Odds scored lower, but strikes that share one close are
+  not independent, so the unit is the symbol×day group, and with 6 groups the interval
+  includes zero (11% of resamples at or above it). One group, QQQ on Sep 1, carries most of
+  the gap: dropping it changes the difference by +0.0115 of the −0.0140. Detecting a true
+  improvement of 0.02 per group at 80% power would take about 38 groups; this week had 6.
 - **The published headline was 0.0159 vs 0.0566 (72% lower) on 37 forecasts.** Four of those
   were stale 0DTE quotes (~0.49 on strikes 1–2.5% in the money) that Honest Odds flagged as stale
-  at the time. Counting a flagged data error as a forecasting win overstates the edge, so the
-  number above excludes them. Both versions, and the script that produces them, are in
+  at the time. Counting a flagged data error as a forecasting win overstates the result, so the
+  numbers above exclude them. Both versions, and the script that produces them, are in
   [CALIBRATION.md](CALIBRATION.md#robustness-check-what-survives-removing-stale-quotes).
-- **Where the edge comes from:** mostly far-from-the-money strikes, where chain mid-prices
+- **Where the gap comes from:** mostly far-from-the-money strikes, where chain mid-prices
   are noisy and Honest Odds correctly pushed them toward 0 or 1. On the 6 interior questions
   (market 15–85%) the gap is 29%.
 - **The finding I'd act on:** when Honest Odds was more *bearish* than the chain it scored 11%
   *worse* (n = 16), and a put spread is a bearish bet, so the trade filter fired on the
   model's weak side. Two of its three worse-than-market forecasts were trades.
-- **Limits:** one up-trending week; strikes sharing a close aren't independent, so the
-  effective sample is about 6–8 symbol×day clusters; a cluster bootstrap interval for the
-  Brier difference includes zero. This is evidence worth testing, not an established edge.
+- **Limits:** one up-trending week, two symbols, paper trading. This is evidence worth
+  testing, not an established edge.
 - Paper account: +6.8% on the week under a deliberately aggressive contest risk profile.
   One week of P&L says little; the Brier scores are the measurement that matters.
 
@@ -95,9 +101,9 @@ pip install -r requirements.txt
 cp .env.example .env          # paste keys from your DEDICATED competition
                               # paper account + an Anthropic API key
 
-# 1. Offline proof — no keys, no network: unit tests, then the FULL pipeline
-python tests/test_implied.py && python tests/test_risk.py
-python run.py --selftest
+# 1. Offline proof — no keys, no network: every unit test, then the FULL pipeline
+for t in tests/test_*.py; do python "$t" || break; done
+python run.py --selftest      # writes to a temp folder, never the live journal
 
 # 2. Account readiness (equity == $100k, options level 3 for spreads)
 python scripts/setup_account_check.py
@@ -117,26 +123,7 @@ python run.py --flatten       # close everything, cancel open orders
 python run.py --letter        # Claude writes today's fund letter from the journal
 ```
 
-## Judges: the 60-second path
-
-`pip install -r requirements.txt && python run.py --selftest` — the entire
-pipeline runs offline, no keys, and prints a fully gated trade. Then:
-`WRITEUP.md` for the numbers, `journal/letters/` for the nightly fund
-letters, `scripts/calibrate.py` output for the Brier scores and
-`scripts/robustness.py` for how much of them survives removing stale quotes. Everything else
-below is for reproducing the week.
-
-## Hackathon compliance
-
-| Requirement | Where |
-|---|---|
-| Dedicated competition paper account, $100k start | `scripts/setup_account_check.py` verifies both |
-| Alpaca Trading API | `pythia/execution.py` — MLEG limit orders via `alpaca-py` |
-| MCP server or CLI | `mcp/README.md` — Claude supervises the same account via Alpaca's MCP server |
-| Options in every strategy | The only instruments Honest Odds trades are option spreads/longs |
-| One-page write-up (AI logic, risk gates, infra) | `WRITEUP.md` — fill in results and submit |
-
-## Risk gates (the part judges should poke)
+## Risk gates
 
 G1 defined-risk only · G2 per-trade budget · G3 portfolio heat · G4 daily
 circuit breaker · G5 liquidity · G6 kill switch · G7 concentration ·
@@ -145,31 +132,6 @@ G8 sanity (edge must survive the actual entry price). All eight in
 the LLM can be wrong; the gates can't be argued with. `config.yaml` is the
 sane profile; `config.contest.yaml` raises the caps for a 4-day leaderboard
 and says so out loud.
-
-## Operating notes for contest week
-
-- Feed the analyst: keep `notes/macro.md` current — it's injected into every
-  assessment verbatim. The Friday NFP print lands 90 minutes before the
-  submission deadline; positions held into it settle the contest.
-- The indicative options feed is free on paper accounts and is the default.
-- MLEG limit orders post at net debit (mid + slippage buffer). Watch the first
-  fill; widen `slippage_buffer` if resting unfilled.
-- If your paper account's options level is < 3, set `allow_spreads: false`
-  (plain long calls/puts) or raise the level in the Alpaca dashboard.
-- Thursday ~3:00-3:45 pm ET: `python run.py --loop --config config.overnight.yaml`
-  builds the Friday-expiry NFP book, then stop it. After the close, run
-  `python scripts/friday_planner.py` — it reads the account and tells you
-  whether Friday is protect-the-gain or full variance, and why.
-- Winners get banked: standalone convex longs up past `take_profit_close_plpc`
-  are closed automatically (spread legs are never touched one-sided).
-- `python scripts/show_curve.py SPY` prints/saves the live implied-probability
-  curve — the money shot for the demo video.
-- `config.event.yaml` is the Friday-NFP-morning profile (fast cycles,
-  convexity mode, wide caps). Run it only 9:30-10:45 ET on Sep 4, then
-  `python run.py --flatten` and `python scripts/snapshot.py` for final numbers.
-- Everything the video needs is on screen: the dashboard's divergence ledger
-  shows gold (Honest Odds) vs slate (market) per decision, gates light up
-  red when they block, and the fund letter narrates the day.
 
 ## Repo map
 
@@ -191,12 +153,13 @@ dashboard/index.html    ops console (serve repo root, open /dashboard/)
 tests/                  offline: curve math vs Black-Scholes, all 8 gates
 notes/macro.md          human-maintained catalyst calendar → analyst prompt
 mcp/README.md           Claude-over-MCP supervision setup
-WRITEUP.md              the one-page submission
+WRITEUP.md              the one-page hackathon write-up
 CALIBRATION.md          Brier scores vs the market, plus the robustness check
 scripts/robustness.py   offline re-scoring (data/closes.json holds settlement prices)
 pythia/scoring.py       reusable scoring checks for any forecast log (python -m pythia.scoring)
 THEORY.md               the stochastic-calculus grounding, module-mapped
 RESEARCH.md             related work (2024-2026) and pre-registered next experiments
+archive/hackathon/      contest-week runbooks, compliance checklist, posts, video assets
 ```
 
 *Honest Odds is a hackathon competition system for simulated funds. It is not

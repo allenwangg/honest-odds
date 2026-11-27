@@ -44,5 +44,5 @@ cat <<'EOF'
   1. paste keys into .env   (Alpaca PAPER + Anthropic)
   2. bash setup.sh --live   (account check + dry run)
   3. git init && git add -A && git commit -m "Pythia" && push public
-  4. read RUNBOOK.md — the whole week is on that one card
+  4. read archive/hackathon/RUNBOOK.md — the whole week is on that one card
 EOF
